@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Web Colorida</title>
+    <title>EsparragoRock</title>
+    <script src="https://cdn.tinymce.com/4/tinymce.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -18,7 +19,6 @@
             color: #333;
         }
 
-        /* Header */
         .header {
             width: 100%;
             height: 250px;
@@ -30,12 +30,11 @@
         .header img {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Asegura que la imagen cubra el área */
-            object-position: center top; /* Recorta desde la parte superior */
+            object-fit: cover;
+            object-position: center top;
             opacity: 0.8;
         }
 
-        /* Contenedor principal */
         .container {
             display: flex;
             min-height: calc(100vh - 250px);
@@ -43,7 +42,6 @@
             margin: 0 auto;
         }
 
-        /* Menú lateral */
         .sidebar {
             width: 250px;
             background: linear-gradient(to bottom, #4ecdc4, #45b7d1);
@@ -71,8 +69,7 @@
             color: #ffeb3b;
         }
 
-        /* Widget del tiempo */
-        .weather-widget {
+        .weather-widget, .spotify-widget, .links-widget {
             background-color: rgba(255, 255, 255, 0.9);
             padding: 15px;
             margin-bottom: 20px;
@@ -80,47 +77,6 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
-        /* Widget de Spotify */
-        .spotify-widget {
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        /* Enlaces de interés */
-        .links-widget {
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        .links-widget h3 {
-            color: #2d3436;
-            margin-bottom: 10px;
-        }
-
-        .links-widget ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .links-widget ul li {
-            margin: 10px 0;
-        }
-
-        .links-widget ul li a {
-            color: #007bff;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .links-widget ul li a:hover {
-            color: #ff6b6b;
-        }
-
-        /* Contenido principal */
         .main-content {
             flex: 1;
             padding: 20px;
@@ -134,6 +90,7 @@
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             transition: transform 0.3s ease;
+            position: relative;
         }
 
         .entry:hover {
@@ -143,6 +100,105 @@
         .entry h2 {
             color: #2d3436;
             margin-bottom: 10px;
+        }
+
+        .entry .category {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .entry .delete-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .entry .delete-btn:hover {
+            background-color: #e63946;
+        }
+
+        .editor {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: none;
+        }
+
+        .editor.visible {
+            display: block;
+        }
+
+        .editor input, .editor select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .editor button {
+            background-color: #4ecdc4;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .editor button:hover {
+            background-color: #45b7d1;
+        }
+
+        .auth {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .auth input {
+            padding: 10px;
+            margin-right: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 150px; /* Tamaño fijo para escritorio */
+        }
+
+        .auth button {
+            background-color: #4ecdc4;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .auth button:hover {
+            background-color: #45b7d1;
+        }
+
+        .filter {
+            margin-bottom: 20px;
+        }
+
+        .filter select {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
         }
 
         /* Responsive Design */
@@ -168,6 +224,20 @@
                 width: 100%;
                 height: auto;
             }
+
+            .auth, .editor {
+                padding: 15px;
+            }
+
+            .auth input {
+                width: 100%; /* Se expande en tablets */
+                margin-bottom: 10px; /* Espacio antes del botón */
+                margin-right: 0;
+            }
+
+            .auth button {
+                width: 100%; /* Botón ocupa todo el ancho */
+            }
         }
 
         @media (max-width: 480px) {
@@ -176,51 +246,51 @@
                 margin: 5px 10px;
             }
 
-            .weather-widget, .spotify-widget {
+            .weather-widget, .spotify-widget, .links-widget, .auth, .editor {
                 padding: 10px;
             }
 
             .entry {
                 padding: 15px;
             }
+
+            .entry .delete-btn {
+                padding: 3px 8px; /* Botón más pequeño en móviles */
+                font-size: 0.8em;
+            }
+
+            .editor input, .editor select, .filter select {
+                padding: 8px; /* Reducir padding en móviles */
+            }
+
+            .editor button, .auth button {
+                padding: 8px 15px; /* Botones más pequeños */
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Cabecera -->
     <header class="header">
         <img src="https://elegirhoy.com/uploads/fichas-eventos-imagenes/Esparrago%20rock%20Foto.jpg" alt="Esparrago Rock Header">
     </header>
 
-    <!-- Contenedor principal -->
     <div class="container">
-        <!-- Menú lateral -->
         <aside class="sidebar">
             <ul>
                 <li><a href="#">Inicio</a></li>
                 <li><a href="#">Videos</a></li>
                 <li><a href="#">Fotos</a></li>
             </ul>
-
-            <!-- Widget del tiempo -->
             <div class="weather-widget">
                 <h3>El Tiempo</h3>
                 <p>Inserta aquí tu widget de clima</p>
             </div>
-
-            <!-- Widget de Spotify -->
             <div class="spotify-widget">
                 <h3>Lista Spotify</h3>
                 <iframe src="https://open.spotify.com/embed/playlist/TU_PLAYLIST_ID" 
-                    width="100%" 
-                    height="380" 
-                    frameborder="0" 
-                    allowtransparency="true" 
-                    allow="encrypted-media">
+                    width="100%" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media">
                 </iframe>
             </div>
-
-            <!-- Enlaces de interés -->
             <div class="links-widget">
                 <h3>Enlaces de Interés</h3>
                 <ul>
@@ -231,7 +301,6 @@
             </div>
         </aside>
 
-        <!-- Contenido principal -->
         <main class="main-content">
             <h1>Últimas Entradas</h1>
             
@@ -251,7 +320,107 @@
                 <h2>Foto 1</h2>
                 <img src="https://i0.wp.com/canal.ugr.es/wp-content/uploads/2025/01/5821079634693965455.jpg?ssl=1" alt="Foto de ejemplo">
             </div>
+
+            <div class="auth" id="authSection">
+                <input type="password" id="password" placeholder="Contraseña">
+                <button onclick="checkPassword()">Acceder al Editor</button>
+            </div>
+
+            <div class="editor" id="editorSection">
+                <input type="text" id="entryTitle" placeholder="Título de la entrada">
+                <select id="entryCategory">
+                    <option value="Noticias">Noticias</option>
+                    <option value="Videos">Videos</option>
+                    <option value="Fotos">Fotos</option>
+                </select>
+                <textarea id="entryContent" placeholder="Escribe el contenido aquí..."></textarea>
+                <button onclick="addEntry()">Publicar Entrada</button>
+            </div>
+
+            <div class="filter">
+                <label for="categoryFilter">Filtrar por categoría: </label>
+                <select id="categoryFilter" onchange="filterEntries()">
+                    <option value="Todas">Todas</option>
+                    <option value="Noticias">Noticias</option>
+                    <option value="Videos">Videos</option>
+                    <option value="Fotos">Fotos</option>
+                </select>
+            </div>
+
+            <div id="entriesContainer"></div>
         </main>
     </div>
+
+    <script>
+        const ADMIN_PASSWORD = "petr1c0r";
+
+        tinymce.init({
+            selector: '#entryContent',
+            height: 300,
+            plugins: 'image link media',
+            toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | image link media',
+            menubar: false
+        });
+
+        document.addEventListener('DOMContentLoaded', loadEntries);
+
+        function checkPassword() {
+            const password = document.getElementById('password').value;
+            if (password === ADMIN_PASSWORD) {
+                document.getElementById('editorSection').classList.add('visible');
+                document.getElementById('authSection').style.display = 'none';
+            } else {
+                alert('Contraseña incorrecta');
+            }
+        }
+
+        function loadEntries(filter = 'Todas') {
+            const entries = JSON.parse(localStorage.getItem('entries')) || [];
+            const container = document.getElementById('entriesContainer');
+            container.innerHTML = '';
+            const filteredEntries = filter === 'Todas' ? entries : entries.filter(entry => entry.category === filter);
+            filteredEntries.forEach((entry, index) => {
+                const entryDiv = document.createElement('div');
+                entryDiv.className = 'entry';
+                entryDiv.innerHTML = `
+                    <h2>${entry.title}</h2>
+                    <div class="category">Categoría: ${entry.category}</div>
+                    <div>${entry.content}</div>
+                    <button class="delete-btn" onclick="deleteEntry(${index})">Eliminar</button>
+                `;
+                container.insertBefore(entryDiv, container.firstChild);
+            });
+        }
+
+        function addEntry() {
+            const title = document.getElementById('entryTitle').value.trim();
+            const category = document.getElementById('entryCategory').value;
+            const content = tinymce.get('entryContent').getContent();
+
+            if (title && content) {
+                const entries = JSON.parse(localStorage.getItem('entries')) || [];
+                const newEntry = { title, category, content, date: new Date().toISOString() };
+                entries.unshift(newEntry);
+                localStorage.setItem('entries', JSON.stringify(entries));
+                document.getElementById('entryTitle').value = '';
+                tinymce.get('entryContent').setContent('');
+                loadEntries(document.getElementById('categoryFilter').value);
+            } else {
+                alert('Por favor, completa el título y el contenido.');
+            }
+        }
+
+        function deleteEntry(index) {
+            const entries = JSON.parse(localStorage.getItem('entries')) || [];
+            entries.splice(index, 1);
+            localStorage.setItem('entries', JSON.stringify(entries));
+            loadEntries(document.getElementById('categoryFilter').value);
+        }
+
+        function filterEntries() {
+            const filter = document.getElementById('categoryFilter').value;
+            loadEntries(filter);
+        }
+    </script>
 </body>
 </html>
