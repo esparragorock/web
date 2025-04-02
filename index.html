@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Web Colorida</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            background-color: #f0f4f8;
+            color: #333;
+        }
+
+        /* Header */
+        .header {
+            width: 100%;
+            height: 250px;
+            overflow: hidden;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            position: relative;
+        }
+
+        .header img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Asegura que la imagen cubra el área */
+            object-position: center top; /* Recorta desde la parte superior */
+            opacity: 0.8;
+        }
+
+        /* Contenedor principal */
+        .container {
+            display: flex;
+            min-height: calc(100vh - 250px);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Menú lateral */
+        .sidebar {
+            width: 250px;
+            background: linear-gradient(to bottom, #4ecdc4, #45b7d1);
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .sidebar ul li {
+            margin: 15px 0;
+        }
+
+        .sidebar ul li a {
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .sidebar ul li a:hover {
+            color: #ffeb3b;
+        }
+
+        /* Widget del tiempo */
+        .weather-widget {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        /* Widget de Spotify */
+        .spotify-widget {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        /* Enlaces de interés */
+        .links-widget {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .links-widget h3 {
+            color: #2d3436;
+            margin-bottom: 10px;
+        }
+
+        .links-widget ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .links-widget ul li {
+            margin: 10px 0;
+        }
+
+        .links-widget ul li a {
+            color: #007bff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .links-widget ul li a:hover {
+            color: #ff6b6b;
+        }
+
+        /* Contenido principal */
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            background-color: #fff;
+        }
+
+        .entry {
+            background: linear-gradient(135deg, #ffeaa7, #fab1a0);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .entry:hover {
+            transform: translateY(-5px);
+        }
+
+        .entry h2 {
+            color: #2d3436;
+            margin-bottom: 10px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                padding: 15px;
+            }
+
+            .header {
+                height: 150px;
+            }
+
+            .main-content {
+                padding: 15px;
+            }
+
+            .entry iframe {
+                width: 100%;
+                height: auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sidebar ul li {
+                display: inline-block;
+                margin: 5px 10px;
+            }
+
+            .weather-widget, .spotify-widget {
+                padding: 10px;
+            }
+
+            .entry {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Cabecera -->
+    <header class="header">
+        <img src="https://elegirhoy.com/uploads/fichas-eventos-imagenes/Esparrago%20rock%20Foto.jpg" alt="Esparrago Rock Header">
+    </header>
+
+    <!-- Contenedor principal -->
+    <div class="container">
+        <!-- Menú lateral -->
+        <aside class="sidebar">
+            <ul>
+                <li><a href="#">Inicio</a></li>
+                <li><a href="#">Videos</a></li>
+                <li><a href="#">Fotos</a></li>
+            </ul>
+
+            <!-- Widget del tiempo -->
+            <div class="weather-widget">
+                <h3>El Tiempo</h3>
+                <p>Inserta aquí tu widget de clima</p>
+            </div>
+
+            <!-- Widget de Spotify -->
+            <div class="spotify-widget">
+                <h3>Lista Spotify</h3>
+                <iframe src="https://open.spotify.com/embed/playlist/TU_PLAYLIST_ID" 
+                    width="100%" 
+                    height="380" 
+                    frameborder="0" 
+                    allowtransparency="true" 
+                    allow="encrypted-media">
+                </iframe>
+            </div>
+
+            <!-- Enlaces de interés -->
+            <div class="links-widget">
+                <h3>Enlaces de Interés</h3>
+                <ul>
+                    <li><a href="https://www.google.com" target="_blank">Google</a></li>
+                    <li><a href="https://www.youtube.com" target="_blank">YouTube</a></li>
+                    <li><a href="https://www.wikipedia.org" target="_blank">Wikipedia</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Contenido principal -->
+        <main class="main-content">
+            <h1>Últimas Entradas</h1>
+            
+            <div class="entry">
+                <h2>Noticia 1</h2>
+                <p>Contenido de la última noticia subida...</p>
+            </div>
+            
+            <div class="entry">
+                <h2>Video 1</h2>
+                <iframe width="560" height="315" 
+                    src="https://www.youtube.com/embed/bg6dusvXxto?si=PppJUC4LoyRZvOqb" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+                </iframe>
+            </div>
+            
+            <div class="entry">
+                <h2>Foto 1</h2>
+                <img src="https://i0.wp.com/canal.ugr.es/wp-content/uploads/2025/01/5821079634693965455.jpg?ssl=1" alt="Foto de ejemplo">
+            </div>
+        </main>
+    </div>
+</body>
+</html>
