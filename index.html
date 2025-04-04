@@ -265,6 +265,20 @@
 
             .editor button, .auth button {
                 padding: 8px 15px; /* Botones más pequeños */
+            } 
+            
+            @media (max-width: 768px) {
+            body {
+                grid-template-areas:
+                    "header"
+                    "sidebar"
+                    "main"
+                    "footer";
+                grid-template-columns: 1fr;
+            }
+            
+            header {
+                height: 150px; /* Altura menor en móviles */
             }
         }
     </style>
@@ -276,6 +290,10 @@
 
     <div class="container">
         <aside class="sidebar">
+            grid-area: sidebar;
+            background-color: #2E7D32;
+            color: white;
+            padding: 20px;
             <ul>
                 <li><a href="#">Inicio</a></li>
                 <li><a href="#">Videos</a></li>
