@@ -5,16 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EsparragoRock</title>
     <style>
+        /* Reset y estilos base */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-        }
-
-        body {
             font-family: 'Arial', sans-serif;
-            line-height: 1.6;
-            background-color: #f0f4f8;
+        }
+        
+        body {
+            background-color: #f5f5f5;
             color: #333;
             display: grid;
             grid-template-areas:
@@ -23,22 +23,22 @@
                 "footer";
             min-height: 100vh;
         }
-
-        .header {
+        
+        /* Cabecera */
+        header {
             grid-area: header;
-            width: 100%;
-            height: 250px;
-            overflow: hidden;
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
         
-        .header-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
+        .logo {
+            max-width: 300px;
+            height: auto;
         }
-
+        
+        /* Layout principal */
         .main-container {
             grid-area: main;
             display: grid;
@@ -47,61 +47,147 @@
             max-width: 1200px;
             width: 100%;
             margin: 0 auto;
-            flex-grow: 1;
         }
-
-        .sidebar {
+        
+        /* Barra lateral */
+        aside {
             grid-area: sidebar;
-            background: linear-gradient(to bottom, #4ecdc4, #45b7d1);
+            background-color: #2E7D32;
+            color: white;
             padding: 20px;
         }
-
-        .main-content {
+        
+        nav ul {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+        
+        nav ul li {
+            margin-bottom: 15px;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            display: block;
+            padding: 10px;
+            border-radius: 5px;
+            transition: all 0.3s;
+            background-color: rgba(255,255,255,0.1);
+        }
+        
+        nav ul li a:hover {
+            background-color: #4CAF50;
+            transform: translateX(5px);
+        }
+        
+        /* Widgets */
+        .widget {
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .widget-title {
+            font-size: 16px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+            padding-bottom: 5px;
+        }
+        
+        /* Contenido principal */
+        main {
             grid-area: content;
             padding: 20px;
-            background-color: #fff;
+            background-color: white;
         }
-
-        /* Resto de tus estilos se mantienen igual... */
-
+        
+        .entrada {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        /* Footer */
+        footer {
+            grid-area: footer;
+            background-color: #1B5E20;
+            color: white;
+            text-align: center;
+            padding: 15px;
+        }
+        
+        /* Responsive */
         @media (max-width: 768px) {
             .main-container {
-                grid-template-areas: 
+                grid-template-areas:
                     "sidebar"
                     "content";
                 grid-template-columns: 1fr;
             }
             
-            .header {
-                height: 150px;
+            aside {
+                text-align: center;
+            }
+            
+            nav ul {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+            }
+            
+            nav ul li {
+                margin-bottom: 0;
+            }
+            
+            nav ul li a:hover {
+                transform: translateY(5px);
             }
         }
     </style>
 </head>
 <body>
-    <header class="header">
-        <img src="https://i.postimg.cc/Kcnwb8w1/rect1810-1.png" alt="Esparrago Rock Header" class="header-img">
+    <header>
+        <img src="https://i.postimg.cc/Kcnwb8w1/rect1810-1.png" alt="EsparragoRock" class="logo">
     </header>
-
+    
     <div class="main-container">
-        <aside class="sidebar">
-            <ul>
-                <li><a href="#">Inicio</a></li>
-                <li><a href="#">Videos</a></li>
-                <li><a href="#">Fotos</a></li>
-            </ul>
-            <div class="weather-widget">
-                <h3>El Tiempo</h3>
-                <p>Inserta aquí tu widget de clima</p>
+        <aside>
+            <nav>
+                <ul>
+                    <li><a href="#">Inicio</a></li>
+                    <li><a href="#">Videos</a></li>
+                    <li><a href="#">Fotos</a></li>
+                </ul>
+            </nav>
+            
+            <div class="widget">
+                <h3 class="widget-title">El Tiempo</h3>
+                <div id="tiempo-widget">
+                    <!-- Widget de clima iría aquí -->
+                    <p>Madrid: 25°C ☀️</p>
+                    <p>Barcelona: 22°C ⛅</p>
+                </div>
             </div>
-            <div class="spotify-widget">
-                <h3>Lista Spotify</h3>
+            
+            <div class="widget">
+                <h3 class="widget-title">Lista Spotify</h3>
                 <iframe src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M" 
-                    width="100%" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media">
+                    width="100%" 
+                    height="380" 
+                    frameborder="0" 
+                    allowtransparency="true" 
+                    allow="encrypted-media">
                 </iframe>
             </div>
-            <div class="links-widget">
-                <h3>Enlaces de Interés</h3>
+            
+            <div class="widget">
+                <h3 class="widget-title">Enlaces de Interés</h3>
                 <ul>
                     <li><a href="https://www.google.com" target="_blank">Google</a></li>
                     <li><a href="https://www.youtube.com" target="_blank">YouTube</a></li>
@@ -109,12 +195,24 @@
                 </ul>
             </div>
         </aside>
-
-        <main class="main-content">
-            <!-- Tu contenido principal aquí -->
+        
+        <main>
+            <h1>Últimas Entradas</h1>
+            
+            <div class="entrada">
+                <h2>Nuevo Álbum "Verde que te quiero verde"</h2>
+                <p>La banda anuncia su esperado cuarto álbum de estudio que saldrá a la venta el próximo mes.</p>
+            </div>
+            
+            <div class="entrada">
+                <h2>Concierto en el Wizink Center</h2>
+                <p>Mira las mejores partes de nuestro último concierto en Madrid.</p>
+            </div>
         </main>
     </div>
-
-    <!-- Resto de tu HTML y scripts -->
+    
+    <footer>
+        <p>© 2023 EsparragoRock - Todos los derechos reservados</p>
+    </footer>
 </body>
 </html>
