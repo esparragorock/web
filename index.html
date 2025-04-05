@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EsparragoRock</title>
+    <script src="https://cdn.tiny.cloud/1/o5mqnr5djvfimdhzmr4gy75hs331z92okm1n7ehbjcyz3yc5/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
     <style>
-        /* Reset y estilos base */
         * {
             margin: 0;
             padding: 0;
@@ -24,7 +24,7 @@
             min-height: 100vh;
         }
         
-        /* Cabecera mejorada */
+        /* CABECERA */
         header {
             grid-area: header;
             background: linear-gradient(135deg, #2E7D32, #4CAF50);
@@ -52,7 +52,7 @@
             transition: all 0.3s ease;
         }
         
-        /* Layout principal */
+        /* LAYOUT PRINCIPAL */
         .main-container {
             grid-area: main;
             display: grid;
@@ -64,7 +64,7 @@
             background-color: #f8f9fa;
         }
         
-        /* Barra lateral */
+        /* BARRA LATERAL */
         aside {
             grid-area: sidebar;
             background-color: #2E7D32;
@@ -98,7 +98,7 @@
             transform: translateX(5px);
         }
         
-        /* Widgets */
+        /* WIDGETS */
         .widget {
             background-color: rgba(255,255,255,0.1);
             border-radius: 10px;
@@ -113,7 +113,7 @@
             padding-bottom: 5px;
         }
         
-        /* Contenido principal */
+        /* CONTENIDO PRINCIPAL */
         .content-area {
             padding: 30px;
             background-color: #ffffff;
@@ -134,7 +134,72 @@
             margin-bottom: 10px;
         }
         
-        /* Footer */
+        /* PANEL ADMIN */
+        .admin-panel {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .admin-form {
+            display: grid;
+            gap: 15px;
+        }
+        
+        .admin-form input, 
+        .admin-form select {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 100%;
+        }
+        
+        .admin-form button {
+            background-color: #2E7D32;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        .admin-form button:hover {
+            background-color: #1B5E20;
+        }
+        
+        .entry-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .edit-btn, .delete-btn {
+            padding: 8px 15px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .edit-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+        
+        .delete-btn {
+            background-color: #f44336;
+            color: white;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        /* FOOTER */
         footer {
             grid-area: footer;
             background-color: #1B5E20;
@@ -144,7 +209,7 @@
             font-size: 14px;
         }
         
-        /* Mejoras para pantallas grandes */
+        /* RESPONSIVE */
         @media (min-width: 1200px) {
             header {
                 min-height: 220px;
@@ -159,7 +224,6 @@
             }
         }
 
-        /* Ajustes para móviles */
         @media (max-width: 768px) {
             header {
                 min-height: 150px;
@@ -234,16 +298,42 @@
         </aside>
         
         <main class="content-area">
-            <h1>Últimas Entradas</h1>
-            
-            <div class="entrada">
-                <h2>Nuevo Álbum "Verde que te quiero verde"</h2>
-                <p>La banda anuncia su esperado cuarto álbum de estudio que saldrá a la venta el próximo mes.</p>
+            <!-- PANEL DE ADMINISTRACIÓN -->
+            <div id="adminPanel" class="admin-panel hidden">
+                <h2>Editor de Publicaciones</h2>
+                <form id="postForm" class="admin-form">
+                    <input type="text" id="postTitle" placeholder="Título de la publicación" required>
+                    <select id="postCategory" required>
+                        <option value="">Selecciona categoría</option>
+                        <option value="Noticia">Noticia</option>
+                        <option value="Video">Video</option>
+                        <option value="Foto">Foto</option>
+                    </select>
+                    <textarea id="postContent" placeholder="Escribe el contenido aquí..."></textarea>
+                    <button type="submit">Guardar Publicación</button>
+                </form>
             </div>
             
-            <div class="entrada">
-                <h2>Concierto en el Wizink Center</h2>
-                <p>Mira las mejores partes de nuestro último concierto en Madrid.</p>
+            <!-- ACCESO ADMIN -->
+            <div id="adminAccess" class="admin-panel">
+                <h3>Acceso Administrador</h3>
+                <input type="password" id="adminPassword" placeholder="Contraseña">
+                <button onclick="loginAdmin()">Acceder</button>
+            </div>
+            
+            <h1>Últimas Entradas</h1>
+            
+            <div id="postsContainer">
+                <!-- Las publicaciones se cargarán aquí dinámicamente -->
+                <div class="entrada">
+                    <h2>Nuevo Álbum "Verde que te quiero verde"</h2>
+                    <p>La banda anuncia su esperado cuarto álbum de estudio que saldrá a la venta el próximo mes.</p>
+                </div>
+                
+                <div class="entrada">
+                    <h2>Concierto en el Wizink Center</h2>
+                    <p>Mira las mejores partes de nuestro último concierto en Madrid.</p>
+                </div>
             </div>
         </main>
     </div>
@@ -251,5 +341,123 @@
     <footer>
         <p>© 2023 EsparragoRock - Todos los derechos reservados</p>
     </footer>
+
+    <script>
+        // CONFIGURACIÓN TINYMCE
+        tinymce.init({
+            selector: '#postContent',
+            plugins: 'advlist link image lists',
+            toolbar: 'bold italic | bullist numlist | link image',
+            menubar: false,
+            height: 300
+        });
+        
+        // CREDENCIALES
+        const ADMIN_PASSWORD = "esparragorock2023";
+        let isAdmin = false;
+        
+        // FUNCIONES PRINCIPALES
+        function loginAdmin() {
+            const password = document.getElementById('adminPassword').value;
+            if (password === ADMIN_PASSWORD) {
+                isAdmin = true;
+                localStorage.setItem('esparragorock-auth', 'true');
+                document.getElementById('adminPanel').classList.remove('hidden');
+                document.getElementById('adminAccess').classList.add('hidden');
+                loadPosts();
+                alert('Acceso concedido. Modo administrador activado.');
+            } else {
+                alert('Contraseña incorrecta');
+            }
+        }
+        
+        function loadPosts() {
+            const posts = JSON.parse(localStorage.getItem('esparragorock-posts')) || [];
+            const container = document.getElementById('postsContainer');
+            container.innerHTML = '';
+            
+            if (posts.length === 0) {
+                container.innerHTML = `
+                    <div class="entrada">
+                        <h2>Bienvenido a EsparragoRock</h2>
+                        <p>No hay publicaciones aún. ¡Crea la primera!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            posts.forEach((post, index) => {
+                const postElement = document.createElement('div');
+                postElement.className = 'entrada';
+                postElement.innerHTML = `
+                    <h2>${post.title}</h2>
+                    <span style="color:#666; font-size:0.9em;">${post.category} • ${post.date}</span>
+                    <div class="post-content">${post.content}</div>
+                    ${isAdmin ? `
+                    <div class="entry-actions">
+                        <button class="edit-btn" onclick="editPost(${index})">Editar</button>
+                        <button class="delete-btn" onclick="deletePost(${index})">Eliminar</button>
+                    </div>
+                    ` : ''}
+                `;
+                container.appendChild(postElement);
+            });
+        }
+        
+        document.getElementById('postForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const post = {
+                id: Date.now(),
+                title: document.getElementById('postTitle').value,
+                category: document.getElementById('postCategory').value,
+                content: tinymce.get('postContent').getContent(),
+                date: new Date().toLocaleDateString('es-ES')
+            };
+            
+            const posts = JSON.parse(localStorage.getItem('esparragorock-posts')) || [];
+            posts.unshift(post);
+            localStorage.setItem('esparragorock-posts', JSON.stringify(posts));
+            
+            this.reset();
+            tinymce.get('postContent').setContent('');
+            loadPosts();
+            
+            alert('Publicación guardada con éxito');
+        });
+        
+        function editPost(index) {
+            const posts = JSON.parse(localStorage.getItem('esparragorock-posts')) || [];
+            const post = posts[index];
+            
+            document.getElementById('postTitle').value = post.title;
+            document.getElementById('postCategory').value = post.category;
+            tinymce.get('postContent').setContent(post.content);
+            
+            posts.splice(index, 1);
+            localStorage.setItem('esparragorock-posts', JSON.stringify(posts));
+            
+            document.getElementById('adminPanel').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function deletePost(index) {
+            if (confirm('¿Estás seguro de eliminar esta publicación?')) {
+                const posts = JSON.parse(localStorage.getItem('esparragorock-posts')) || [];
+                posts.splice(index, 1);
+                localStorage.setItem('esparragorock-posts', JSON.stringify(posts));
+                loadPosts();
+            }
+        }
+        
+        // INICIALIZACIÓN
+        document.addEventListener('DOMContentLoaded', function() {
+            if (localStorage.getItem('esparragorock-auth') === 'true') {
+                isAdmin = true;
+                document.getElementById('adminPanel').classList.remove('hidden');
+                document.getElementById('adminAccess').classList.add('hidden');
+            }
+            loadPosts();
+        });
+    </script>
 </body>
 </html>
