@@ -586,5 +586,21 @@
             loadPosts();
         });
     </script>
+    <script>
+// Desactiva editable en todo el documento
+document.body.contentEditable = 'false';
+
+// Activa solo donde necesites edición
+const editArea = document.getElementById('editor-container'); // Cambia este selector
+if(editArea) editArea.contentEditable = 'true';
+
+// Bloqueo adicional preventivo
+document.addEventListener('click', function(e) {
+  const allowedAreas = ['editor-container', 'editable-region']; // IDs permitidas
+  if(!allowedAreas.includes(e.target.id) && !e.target.closest('#' + allowedAreas.join(',#'))) {
+    e.preventDefault();
+  }
+});
+</script>
 </body>
 </html>
