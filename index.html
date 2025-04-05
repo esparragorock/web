@@ -11,6 +11,8 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Arial', sans-serif;
+            user-select: none;
+            -webkit-user-select: none;
         }
         
         body {
@@ -291,18 +293,12 @@
                 padding: 20px;
             }
         }
-        document.querySelectorAll('body > *:not(#editor)').forEach(el => {
-  el.contentEditable = 'false';
-  el.classList.add('non-editable');
-});
 
-// CSS adicional
-<style>
-.non-editable {
-  pointer-events: none;
-  user-select: none;
-  -webkit-user-select: none;
-}
+        /* Excepciones para el editor */
+        #postContent, .tox-tinymce, .tox-tinymce * {
+            user-select: auto !important;
+            -webkit-user-select: auto !important;
+        }
     </style>
 </head>
 <body>
@@ -454,13 +450,20 @@
     </footer>
 
     <script>
-        // CONFIGURACIÓN TINYMCE
+        // CONFIGURACIÓN TINYMCE CORREGIDA
         tinymce.init({
-            selector: 'content-area',
+            selector: '#postContent',
             plugins: 'advlist link image lists',
             toolbar: 'bold italic | bullist numlist | link image',
             menubar: false,
-            height: 300
+            height: 300,
+            init_instance_callback: function(editor) {
+                // Asegurar que solo el editor sea editable
+                document.body.contentEditable = 'false';
+                editor.on('focus', function() {
+                    document.body.contentEditable = 'false';
+                });
+            }
         });
         
         // CREDENCIALES
@@ -588,6 +591,16 @@
             this.reset();
         });
         
+        // PROTECCIÓN CONTRA EDICIÓN NO DESEADA
+        function lockNonEditableAreas() {
+            // Desactiva contenteditable en todo el documento
+            document.querySelectorAll('body *').forEach(el => {
+                if (!el.closest('#postContent') && !el.closest('.tox-tinymce')) {
+                    el.contentEditable = 'false';
+                }
+            });
+        }
+        
         // INICIALIZACIÓN
         document.addEventListener('DOMContentLoaded', function() {
             if (localStorage.getItem('esparragorock-auth') === 'true') {
@@ -596,23 +609,14 @@
                 document.getElementById('adminAccess').classList.add('hidden');
             }
             loadPosts();
+            
+            // Protección contra edición
+            lockNonEditableAreas();
+            setInterval(lockNonEditableAreas, 1000);
+            
+            // Desactivar edición en todo el documento
+            document.body.contentEditable = 'false';
         });
     </script>
-    <script>
-// Desactiva editable en todo el documento
-document.body.contentEditable = 'false';
-
-// Activa solo donde necesites edición
-const editArea = document.getElementById('editor-container'); // Cambia este selector
-if(editArea) editArea.contentEditable = 'true';
-
-// Bloqueo adicional preventivo
-document.addEventListener('click', function(e) {
-  const allowedAreas = ['editor-container', 'editable-region']; // IDs permitidas
-  if(!allowedAreas.includes(e.target.id) && !e.target.closest('#' + allowedAreas.join(',#'))) {
-    e.preventDefault();
-  }
-});
-</script>
 </body>
 </html>
