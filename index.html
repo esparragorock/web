@@ -64,38 +64,38 @@
             background-color: #f8f9fa;
         }
         
-        /* BARRA LATERAL */
-        aside {
-            grid-area: sidebar;
-            background-color: #2E7D32;
-            color: white;
-            padding: 25px;
-            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        /* AJUSTES PARA ENLACES DE INTERÉS */
+        .links-widget ul {
+            padding-left: 0;
+            margin-top: 15px;
         }
         
-        nav ul {
-            list-style: none;
-            margin-bottom: 30px;
+        .links-widget li {
+            list-style-type: none;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
         }
         
-        nav ul li {
-            margin-bottom: 15px;
+        .links-widget li::before {
+            content: "•";
+            color: #4CAF50;
+            font-weight: bold;
+            display: inline-block;
+            width: 20px;
+            text-align: center;
         }
         
-        nav ul li a {
+        .links-widget a {
             color: white;
             text-decoration: none;
-            font-size: 18px;
-            display: block;
-            padding: 10px;
-            border-radius: 5px;
-            transition: all 0.3s;
-            background-color: rgba(255,255,255,0.1);
+            transition: color 0.3s;
+            flex: 1;
         }
         
-        nav ul li a:hover {
-            background-color: #4CAF50;
-            transform: translateX(5px);
+        .links-widget a:hover {
+            color: #ffeb3b;
+            text-decoration: underline;
         }
         
         /* WIDGETS */
@@ -287,14 +287,14 @@
                 </iframe>
             </div>
             
-            <div class="widget">
-                <h3 class="widget-title">Enlaces de Interés</h3>
-                <ul>
-                    <li><a href="https://www.google.com" target="_blank">Google</a></li>
-                    <li><a href="https://www.youtube.com" target="_blank">YouTube</a></li>
-                    <li><a href="https://www.wikipedia.org" target="_blank">Wikipedia</a></li>
-                </ul>
-            </div>
+            <div class="widget links-widget">
+        <h3 class="widget-title">Enlaces de Interés</h3>
+        <ul>
+            <li><a href="https://www.google.com" target="_blank">Google</a></li>
+            <li><a href="https://www.youtube.com" target="_blank">YouTube</a></li>
+            <li><a href="https://www.wikipedia.org" target="_blank">Wikipedia</a></li>
+        </ul>
+    </div>
         </aside>
         
         <main class="content-area">
