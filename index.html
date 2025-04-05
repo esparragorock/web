@@ -24,29 +24,43 @@
             min-height: 100vh;
         }
         
-        /* Cabecera */
+       /* Cabecera mejorada */
         header {
             grid-area: header;
-            background: linear-gradient(135deg, #4CAF50, #2E7D32);
-            padding: 20px;
+            background: linear-gradient(135deg, #2E7D32, #4CAF50);
+            padding: 15px 20px;
             text-align: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 180px; /* Altura mínima aumentada */
+        }
+        
+        .logo-container {
+            max-width: 100%;
+            height: auto;
+            display: flex;
+            justify-content: center;
         }
         
         .logo {
-            max-width: 300px;
             height: auto;
-        }
+            max-height: 120px; /* Tamaño aumentado */
+            width: auto;
+            max-width: 100%;
+            transition: all 0.3s ease;
         
         /* Layout principal */
         .main-container {
             grid-area: main;
             display: grid;
             grid-template-areas: "sidebar content";
-            grid-template-columns: 250px 1fr;
-            max-width: 1200px;
+            grid-template-columns: 280px 1fr; /* Sidebar un poco más ancho */
+            max-width: 1400px; /* Contenedor más ancho */
             width: 100%;
             margin: 0 auto;
+            background-color: #f8f9fa; /* Fondo más suave para el contenido */
         }
         
         /* Barra lateral */
@@ -54,7 +68,16 @@
             grid-area: sidebar;
             background-color: #2E7D32;
             color: white;
-            padding: 20px;
+            padding: 25px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+        
+        /* Contenido principal */
+        main {
+            grid-area: content;
+            padding: 30px;
+            background-color: #ffffff;
+            box-shadow: -2px 0 5px rgba(0,0,0,0.05);
         }
         
         nav ul {
@@ -122,38 +145,50 @@
         }
         
         /* Responsive */
+        /* Mejoras para pantallas grandes */
+        @media (min-width: 1200px) {
+            header {
+                min-height: 220px;
+            }
+            
+            .logo {
+                max-height: 150px;
+            }
+            
+            .main-container {
+                grid-template-columns: 300px 1fr;
+            }
+            
+            body {
+                background-color: #e9ecef; /* Fondo un poco más oscuro para desktop */
+            }
+        }
+
+        /* Ajustes para móviles */
         @media (max-width: 768px) {
+            header {
+                min-height: 150px;
+                padding: 10px;
+            }
+            
+            .logo {
+                max-height: 100px;
+            }
+            
             .main-container {
                 grid-template-areas:
                     "sidebar"
                     "content";
                 grid-template-columns: 1fr;
             }
-            
-            aside {
-                text-align: center;
-            }
-            
-            nav ul {
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 10px;
-            }
-            
-            nav ul li {
-                margin-bottom: 0;
-            }
-            
-            nav ul li a:hover {
-                transform: translateY(5px);
-            }
         }
     </style>
 </head>
 <body>
     <header>
-        <img src="https://i.postimg.cc/Kcnwb8w1/rect1810-1.png" alt="EsparragoRock" class="logo">
+        <div class="logo-container">
+            <img src="https://i.postimg.cc/Kcnwb8w1/rect1810-1.png" alt="EsparragoRock" class="logo">
+        </div>
     </header>
     
     <div class="main-container">
