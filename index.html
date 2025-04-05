@@ -291,6 +291,18 @@
                 padding: 20px;
             }
         }
+        document.querySelectorAll('body > *:not(#editor)').forEach(el => {
+  el.contentEditable = 'false';
+  el.classList.add('non-editable');
+});
+
+// CSS adicional
+<style>
+.non-editable {
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
     </style>
 </head>
 <body>
