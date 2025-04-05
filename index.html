@@ -14,7 +14,7 @@
         }
         
         body {
-            background-color: #f5f5f5;
+            background-color: #e9ecef;
             color: #333;
             display: grid;
             grid-template-areas:
@@ -24,7 +24,7 @@
             min-height: 100vh;
         }
         
-       /* Cabecera mejorada */
+        /* Cabecera mejorada */
         header {
             grid-area: header;
             background: linear-gradient(135deg, #2E7D32, #4CAF50);
@@ -34,7 +34,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 180px; /* Altura mínima aumentada */
+            min-height: 180px;
         }
         
         .logo-container {
@@ -46,21 +46,22 @@
         
         .logo {
             height: auto;
-            max-height: 120px; /* Tamaño aumentado */
+            max-height: 120px;
             width: auto;
             max-width: 100%;
             transition: all 0.3s ease;
+        }
         
         /* Layout principal */
         .main-container {
             grid-area: main;
             display: grid;
             grid-template-areas: "sidebar content";
-            grid-template-columns: 280px 1fr; /* Sidebar un poco más ancho */
-            max-width: 1400px; /* Contenedor más ancho */
+            grid-template-columns: 280px 1fr;
+            max-width: 1400px;
             width: 100%;
             margin: 0 auto;
-            background-color: #f8f9fa; /* Fondo más suave para el contenido */
+            background-color: #f8f9fa;
         }
         
         /* Barra lateral */
@@ -70,14 +71,6 @@
             color: white;
             padding: 25px;
             box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-        }
-        
-        /* Contenido principal */
-        main {
-            grid-area: content;
-            padding: 30px;
-            background-color: #ffffff;
-            box-shadow: -2px 0 5px rgba(0,0,0,0.05);
         }
         
         nav ul {
@@ -121,18 +114,24 @@
         }
         
         /* Contenido principal */
-        main {
-            grid-area: content;
-            padding: 20px;
-            background-color: white;
+        .content-area {
+            padding: 30px;
+            background-color: #ffffff;
+            box-shadow: -2px 0 5px rgba(0,0,0,0.05);
         }
         
         .entrada {
-            background-color: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
             margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border-left: 4px solid #4CAF50;
+        }
+        
+        .entrada h2 {
+            color: #2E7D32;
+            margin-bottom: 10px;
         }
         
         /* Footer */
@@ -142,9 +141,9 @@
             color: white;
             text-align: center;
             padding: 15px;
+            font-size: 14px;
         }
         
-        /* Responsive */
         /* Mejoras para pantallas grandes */
         @media (min-width: 1200px) {
             header {
@@ -157,10 +156,6 @@
             
             .main-container {
                 grid-template-columns: 300px 1fr;
-            }
-            
-            body {
-                background-color: #e9ecef; /* Fondo un poco más oscuro para desktop */
             }
         }
 
@@ -180,6 +175,14 @@
                     "sidebar"
                     "content";
                 grid-template-columns: 1fr;
+            }
+            
+            aside {
+                padding: 15px;
+            }
+            
+            .content-area {
+                padding: 20px;
             }
         }
     </style>
@@ -204,14 +207,13 @@
             <div class="widget">
                 <h3 class="widget-title">El Tiempo</h3>
                 <div id="tiempo-widget">
-                    <!-- Widget de clima iría aquí -->
                     <p>Madrid: 25°C ☀️</p>
                     <p>Barcelona: 22°C ⛅</p>
                 </div>
             </div>
             
             <div class="widget">
-                <h3 class="widget-title">Lista Spotify</h3>
+                <h3 class="widget-title">Today's Top Hits</h3>
                 <iframe src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M" 
                     width="100%" 
                     height="380" 
@@ -231,7 +233,7 @@
             </div>
         </aside>
         
-        <main>
+        <main class="content-area">
             <h1>Últimas Entradas</h1>
             
             <div class="entrada">
