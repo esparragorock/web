@@ -6,6 +6,29 @@
     <title>EsparragoRock</title>
     <script src="https://cdn.tiny.cloud/1/o5mqnr5djvfimdhzmr4gy75hs331z92okm1n7ehbjcyz3yc5/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
     <style>
+        /* Nuevos estilos para la radio */
+        .radio-container {
+            background: linear-gradient(to right, #2E7D32, #1B5E20);
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .radio-header {
+            color: white;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .radio-header svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+    </style>
+    <style>
         * {
             margin: 0;
             padding: 0;
@@ -243,6 +266,29 @@
         <div class="logo-container">
             <img src="https://i.postimg.cc/Kcnwb8w1/rect1810-1.png" alt="EsparragoRock" class="logo">
         </div>
+
+        <!-- Barra de radio -->
+    <div class="radio-container">
+        <div class="radio-header">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                <circle cx="12" cy="12" r="5"/>
+            </svg>
+            <span>Radio En Vivo</span>
+        </div>
+        <div style="width: 100%; height: 80px;">
+            <div class="ng-app-embedded">
+                <div ui-view class="microsite embedded-radio-player" 
+                     data-playerwidth="100%" 
+                     data-playerheight="80px"
+                     data-playertype="web_embedded" 
+                     data-playstation="rockenespanol" 
+                     data-autoplay="false" 
+                     data-apikey="df04ff67dd3339a6fc19c9b8be164d5b5245ae93">
+                </div>
+            </div>
+        </div>
+    </div>
     </header>
     
     <!-- SECCIÓN PRINCIPAL (pública) -->
@@ -642,5 +688,19 @@
             }
         });
     </script>
+
+    <script>
+(function(d, s){
+    if(!window.rel){
+        s = d.createElement("script");
+        s.type = "text/javascript";
+        s.async = true;
+        s.id = "radio-de-embedded";
+        s.src = "https://www.radio.es/inc/microsite/js/full.js";
+        d.getElementsByTagName("head")[0].appendChild(s);
+        window.rel = true;
+    }
+}(document));
+</script>
 </body>
 </html>
