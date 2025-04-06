@@ -11,8 +11,6 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Arial', sans-serif;
-            user-select: none;
-            -webkit-user-select: none;
         }
         
         body {
@@ -294,14 +292,27 @@
             }
         }
 
-        /* Excepciones para el editor */
-        #postContent, .tox-tinymce, .tox-tinymce * {
+        /* Protección contra selección de texto */
+        .protected {
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+
+        /* Excepciones para áreas editables */
+        #postContent, .tox-tinymce, 
+        #adminPassword, #postTitle, 
+        #postCategory, #message,
+        #name, #email, #subject {
             user-select: auto !important;
             -webkit-user-select: auto !important;
+            -moz-user-select: auto !important;
+            -ms-user-select: auto !important;
         }
     </style>
 </head>
-<body>
+<body class="protected">
     <header>
         <div class="logo-container">
             <img src="https://i.postimg.cc/Kcnwb8w1/rect1810-1.png" alt="EsparragoRock" class="logo">
@@ -393,7 +404,7 @@
                 <div class="entrada">
                     <h2>Último Concierto</h2>
                     <div class="video-container">
-                        <iframe width="100%" height="315" src="https://www.youtube.com/embed/VIDEO_ID" frameborder="0" allowfullscreen></iframe>
+                        <iframe width="100%" height="315" src="https://youtu.be/bg6dusvXxto?si=rOlMUyneNX2BoJkh" frameborder="0" allowfullscreen></iframe>
                     </div>
                 </div>
             </section>
@@ -402,7 +413,7 @@
                 <h1>Galería de Fotos</h1>
                 <div class="entrada">
                     <h2>Backstage</h2>
-                    <img src="https://via.placeholder.com/800x450" alt="Backstage" style="width:100%; border-radius:5px;">
+                    <img src="https://elegirhoy.com/uploads/fichas-eventos-imagenes/Esparrago%20rock%20Foto.jpg" alt="Backstage" style="width:100%; border-radius:5px;">
                 </div>
             </section>
             
@@ -450,58 +461,68 @@
     </footer>
 
     <script>
-        // CONFIGURACIÓN TINYMCE CORREGIDA
-        tinymce.init({
-            selector: '#postContent',
-            plugins: 'advlist link image lists',
-            toolbar: 'bold italic | bullist numlist | link image',
-            menubar: false,
-            height: 300,
-            init_instance_callback: function(editor) {
-                // Asegurar que solo el editor sea editable
-                document.body.contentEditable = 'false';
-                editor.on('focus', function() {
-                    document.body.contentEditable = 'false';
-                });
-            }
-        });
+        // CONFIGURACIÓN TINYMCE SEGURA
+        let tinyMCEInitialized = false;
         
-        // CREDENCIALES
+        function initTinyMCE() {
+            if (tinyMCEInitialized) return;
+            
+            tinymce.init({
+                selector: '#postContent',
+                plugins: 'advlist link image lists',
+                toolbar: 'bold italic | bullist numlist | link image',
+                menubar: false,
+                height: 300,
+                init_instance_callback: function(editor) {
+                    editor.on('focus', function() {
+                        document.body.contentEditable = 'false';
+                    });
+                }
+            });
+            
+            tinyMCEInitialized = true;
+        }
+
+        // GESTIÓN DE AUTENTICACIÓN
         const ADMIN_PASSWORD = "esparragorock2023";
         let isAdmin = false;
         
-        // FUNCIONES DE NAVEGACIÓN
-        function showSection(sectionId) {
-            // Oculta todas las secciones
-            document.querySelectorAll('.section').forEach(section => {
-                section.classList.remove('active');
-            });
-            
-            // Muestra la sección seleccionada
-            document.getElementById(sectionId).classList.add('active');
-            
-            // Scroll al inicio
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            
-            // Si es la sección de inicio, carga las publicaciones
-            if (sectionId === 'inicio') {
-                loadPosts();
+        function checkAuth() {
+            const auth = sessionStorage.getItem('esparragorock-auth');
+            if (auth === 'true') {
+                loginAdmin();
+            } else {
+                logoutAdmin();
             }
         }
         
-        // FUNCIONES ADMIN
         function loginAdmin() {
-            const password = document.getElementById('adminPassword').value;
-            if (password === ADMIN_PASSWORD) {
-                isAdmin = true;
-                localStorage.setItem('esparragorock-auth', 'true');
-                document.getElementById('adminPanel').classList.remove('hidden');
-                document.getElementById('adminAccess').classList.add('hidden');
-                loadPosts();
-                alert('Acceso concedido. Modo administrador activado.');
-            } else {
-                alert('Contraseña incorrecta');
+            isAdmin = true;
+            sessionStorage.setItem('esparragorock-auth', 'true');
+            document.getElementById('adminPanel').classList.remove('hidden');
+            document.getElementById('adminAccess').classList.add('hidden');
+            initTinyMCE();
+            loadPosts();
+        }
+        
+        function logoutAdmin() {
+            isAdmin = false;
+            sessionStorage.removeItem('esparragorock-auth');
+            document.getElementById('adminPanel').classList.add('hidden');
+            document.getElementById('adminAccess').classList.remove('hidden');
+            
+            if (tinymce.get('postContent')) {
+                tinymce.get('postContent').setContent('');
             }
+        }
+        
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            if (sectionId === 'inicio') loadPosts();
         }
         
         function loadPosts() {
@@ -582,40 +603,42 @@
             }
         }
         
-        // FORMULARIO DE CONTACTO
         document.getElementById('contactForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            
-            // Aquí iría el código para enviar el formulario
             alert('Mensaje enviado con éxito. Nos pondremos en contacto contigo pronto.');
             this.reset();
         });
         
-        // PROTECCIÓN CONTRA EDICIÓN NO DESEADA
-        function lockNonEditableAreas() {
-            // Desactiva contenteditable en todo el documento
-            document.querySelectorAll('body *').forEach(el => {
-                if (!el.closest('#postContent') && !el.closest('.tox-tinymce')) {
-                    el.contentEditable = 'false';
-                }
-            });
-        }
+        document.getElementById('adminAccess').addEventListener('submit', function(e) {
+            e.preventDefault();
+            loginAdmin();
+        });
         
         // INICIALIZACIÓN
         document.addEventListener('DOMContentLoaded', function() {
-            if (localStorage.getItem('esparragorock-auth') === 'true') {
-                isAdmin = true;
-                document.getElementById('adminPanel').classList.remove('hidden');
-                document.getElementById('adminAccess').classList.add('hidden');
-            }
-            loadPosts();
+            checkAuth();
+            showSection('inicio');
             
-            // Protección contra edición
-            lockNonEditableAreas();
-            setInterval(lockNonEditableAreas, 1000);
-            
-            // Desactivar edición en todo el documento
+            // Protección contra edición no deseada
             document.body.contentEditable = 'false';
+            
+            // Botón de logout
+            const logoutBtn = document.createElement('button');
+            logoutBtn.textContent = 'Cerrar sesión';
+            logoutBtn.style.position = 'fixed';
+            logoutBtn.style.bottom = '10px';
+            logoutBtn.style.right = '10px';
+            logoutBtn.style.zIndex = '1000';
+            logoutBtn.style.padding = '5px 10px';
+            logoutBtn.style.backgroundColor = '#f44336';
+            logoutBtn.style.color = 'white';
+            logoutBtn.style.border = 'none';
+            logoutBtn.style.borderRadius = '3px';
+            logoutBtn.style.cursor = 'pointer';
+            logoutBtn.onclick = logoutAdmin;
+            document.body.appendChild(logoutBtn);
+            
+            if (!isAdmin) logoutBtn.style.display = 'none';
         });
     </script>
 </body>
