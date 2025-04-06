@@ -272,8 +272,39 @@
         </iframe>
     </div>
 
-        <script>(function(d, s){if(!window.rel){s = d.createElement("script");s.type = "text/javascript";s.async = true;s.id = "radio-de-embedded";s.src = "https://www.radio.es/inc/microsite/js/full.js";d.getElementsByTagName("head")[0].appendChild(s);window.rel = true;}}(document));</script>
-    <div class="ng-app-embedded"><div ui-view class="microsite embedded-radio-player" data-playerwidth="240px" data-playertype="web_embedded" data-playstation="rockenespanol" data-autoplay="true" data-apikey="df04ff67dd3339a6fc19c9b8be164d5b5245ae93"></div></div><noscript><a href="https://www.radio.es/s/rockenespanol" target="_blank">Rock en Español Radio en radio.es</a></noscript>
+     <div class="widget">
+    <h3 class="widget-title">Radio en Vivo</h3>
+    <div style="background-color: rgba(255,255,255,0.1); padding: 15px; border-radius: 8px; margin-top: 10px;">
+        <div class="ng-app-embedded">
+            <div ui-view class="microsite embedded-radio-player" 
+                 data-playerwidth="100%" 
+                 data-playertype="web_embedded" 
+                 data-playstation="rockenespanol" 
+                 data-autoplay="true" 
+                 data-apikey="df04ff67dd3339a6fc19c9b8be164d5b5245ae93">
+            </div>
+        </div>
+        <noscript>
+            <a href="https://www.radio.es/s/rockenespanol" target="_blank" style="color: #ffeb3b;">
+                Rock en Español Radio en radio.es
+            </a>
+        </noscript>
+    </div>
+</div>
+
+<script>
+(function(d, s){
+    if(!window.rel){
+        s = d.createElement("script");
+        s.type = "text/javascript";
+        s.async = true;
+        s.id = "radio-de-embedded";
+        s.src = "https://www.radio.es/inc/microsite/js/full.js";
+        d.getElementsByTagName("head")[0].appendChild(s);
+        window.rel = true;
+    }
+}(document));
+</script>
     
                 </div>
             </aside>
