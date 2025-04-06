@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Espárrago Rock</title>
+    <title>EsparragoRock</title>
     <script src="https://cdn.tiny.cloud/1/o5mqnr5djvfimdhzmr4gy75hs331z92okm1n7ehbjcyz3yc5/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
     <style>
         * {
@@ -16,17 +16,11 @@
         body {
             background-color: #e9ecef;
             color: #333;
-            display: grid;
-            grid-template-areas:
-                "header"
-                "main"
-                "footer";
             min-height: 100vh;
         }
         
         /* CABECERA */
         header {
-            grid-area: header;
             background: linear-gradient(135deg, #2E7D32, #4CAF50);
             padding: 15px 20px;
             text-align: center;
@@ -50,28 +44,24 @@
             max-height: 120px;
             width: auto;
             max-width: 100%;
-            transition: all 0.3s ease;
         }
         
-        /* LAYOUT PRINCIPAL */
-        .main-container {
-            grid-area: main;
-            display: grid;
-            grid-template-areas: "sidebar content";
-            grid-template-columns: 280px 1fr;
+        /* CONTENIDO PRINCIPAL */
+        .content-area {
             max-width: 1400px;
-            width: 100%;
             margin: 0 auto;
-            background-color: #f8f9fa;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 20px;
         }
         
         /* BARRA LATERAL */
         aside {
-            grid-area: sidebar;
             background-color: #2E7D32;
             color: white;
-            padding: 25px;
-            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            padding: 20px;
+            border-radius: 8px;
         }
         
         nav ul {
@@ -99,92 +89,28 @@
             transform: translateX(5px);
         }
         
-        /* WIDGETS */
-        .widget {
-            background-color: rgba(255,255,255,0.1);
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .widget-title {
-            font-size: 16px;
-            margin-bottom: 10px;
-            border-bottom: 1px solid rgba(255,255,255,0.3);
-            padding-bottom: 5px;
-        }
-        
-        /* ENLACES DE INTERÉS */
-        .links-widget ul {
-            padding-left: 0;
-            margin-top: 15px;
-        }
-        
-        .links-widget li {
-            list-style-type: none;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .links-widget li::before {
-            content: "•";
-            color: #4CAF50;
-            font-weight: bold;
-            display: inline-block;
-            width: 20px;
-            text-align: center;
-        }
-        
-        .links-widget a {
-            color: white;
-            text-decoration: none;
-            transition: color 0.3s;
-            flex: 1;
-        }
-        
-        .links-widget a:hover {
-            color: #ffeb3b;
-            text-decoration: underline;
-        }
-        
-        /* CONTENIDO PRINCIPAL */
-        .content-area {
-            padding: 30px;
-            background-color: #ffffff;
-            box-shadow: -2px 0 5px rgba(0,0,0,0.05);
-        }
-        
-        .section {
+        /* SECCIÓN ADMIN */
+        #adminSection {
             display: none;
         }
         
-        .section.active {
-            display: block;
-        }
-        
-        .entrada {
-            background-color: #fff;
-            border-radius: 8px;
+        .admin-panel {
+            background-color: #f8f9fa;
             padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            border-left: 4px solid #4CAF50;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border: 1px solid #e0e0e0;
         }
         
-        .entrada h2 {
-            color: #2E7D32;
-            margin-bottom: 10px;
-        }
-        
-        /* FORMULARIO DE CONTACTO */
-        .contact-form {
-            max-width: 600px;
+        .admin-form {
+            display: grid;
+            gap: 15px;
+            max-width: 800px;
             margin: 0 auto;
         }
         
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         
         .form-group label {
@@ -197,14 +123,14 @@
         .form-group textarea,
         .form-group select {
             width: 100%;
-            padding: 12px;
+            padding: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
             font-size: 16px;
         }
         
         .form-group textarea {
-            min-height: 150px;
+            min-height: 300px;
         }
         
         .submit-btn {
@@ -222,238 +148,135 @@
             background-color: #1B5E20;
         }
         
-        /* PANEL ADMIN */
-        .admin-panel {
-            background-color: #f8f9fa;
+        /* SECCIONES NORMALES */
+        .main-content {
+            background-color: white;
             padding: 20px;
             border-radius: 8px;
-            margin-bottom: 30px;
-            border: 1px solid #e0e0e0;
         }
         
-        .admin-form {
-            display: grid;
-            gap: 15px;
-        }
-        
-        .entry-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        
-        .edit-btn, .delete-btn {
-            padding: 8px 15px;
-            border-radius: 5px;
-            border: none;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        
-        .edit-btn {
-            background-color: #4CAF50;
-            color: white;
-        }
-        
-        .delete-btn {
-            background-color: #f44336;
-            color: white;
-        }
-        
-        .hidden {
-            display: none;
+        .entrada {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border-left: 4px solid #4CAF50;
         }
         
         /* FOOTER */
         footer {
-            grid-area: footer;
             background-color: #1B5E20;
             color: white;
             text-align: center;
             padding: 15px;
             font-size: 14px;
+            margin-top: 30px;
         }
         
         /* RESPONSIVE */
         @media (max-width: 768px) {
-            .main-container {
-                grid-template-areas:
-                    "sidebar"
-                    "content";
+            .content-area {
                 grid-template-columns: 1fr;
             }
-            
-            aside {
-                padding: 15px;
-            }
-            
-            .content-area {
-                padding: 20px;
-            }
-        }
-
-        /* Protección contra selección de texto */
-        .protected {
-            user-select: none;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-        }
-
-        /* Excepciones para áreas editables */
-        #postContent, .tox-tinymce, 
-        #adminPassword, #postTitle, 
-        #postCategory, #message,
-        #name, #email, #subject {
-            user-select: auto !important;
-            -webkit-user-select: auto !important;
-            -moz-user-select: auto !important;
-            -ms-user-select: auto !important;
         }
     </style>
 </head>
-<body class="protected">
+<body>
     <header>
         <div class="logo-container">
             <img src="https://i.postimg.cc/Kcnwb8w1/rect1810-1.png" alt="EsparragoRock" class="logo">
         </div>
     </header>
     
-    <div class="main-container">
-        <aside>
-            <nav>
-                <ul>
-                    <li><a href="#" onclick="showSection('inicio')">Inicio</a></li>
-                    <li><a href="#" onclick="showSection('videos')">Videos</a></li>
-                    <li><a href="#" onclick="showSection('fotos')">Fotos</a></li>
-                    <li><a href="#" onclick="showSection('contacto')">Contacto</a></li>
-                </ul>
-            </nav>
+    <!-- SECCIÓN PRINCIPAL (pública) -->
+    <div id="mainSection">
+        <div class="content-area">
+            <aside>
+                <nav>
+                    <ul>
+                        <li><a href="#" onclick="showSection('inicio')">Inicio</a></li>
+                        <li><a href="#" onclick="showSection('videos')">Videos</a></li>
+                        <li><a href="#" onclick="showSection('fotos')">Fotos</a></li>
+                        <li><a href="#" onclick="showSection('contacto')">Contacto</a></li>
+                        <li><a href="#" onclick="showAdminSection()">Admin</a></li>
+                    </ul>
+                </nav>
+                
+                <!-- [Tus widgets aquí] -->
+            </aside>
             
-            <div class="widget">
-                <h3 class="widget-title">El Tiempo</h3>
-                <div id="tiempo-widget">
-                    <p>Madrid: 25°C ☀️</p>
-                    <p>Barcelona: 22°C ⛅</p>
-                </div>
+            <div class="main-content">
+                <!-- Contenido público -->
+                <section id="inicio" class="section active">
+                    <h1>Últimas Entradas</h1>
+                    <div id="postsContainer">
+                        <!-- Las publicaciones se cargarán aquí -->
+                    </div>
+                </section>
+                
+                <!-- [Otras secciones públicas] -->
             </div>
+        </div>
+    </div>
+    
+    <!-- SECCIÓN ADMIN (privada) -->
+    <div id="adminSection">
+        <div class="content-area">
+            <aside>
+                <nav>
+                    <ul>
+                        <li><a href="#" onclick="showPublicSection()">Volver al sitio</a></li>
+                        <li><a href="#" onclick="logoutAdmin()">Cerrar sesión</a></li>
+                    </ul>
+                </nav>
+            </aside>
             
-            <div class="widget">
-                <h3 class="widget-title">Today's Top Hits</h3>
-                <iframe src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M" 
-                    width="100%" 
-                    height="380" 
-                    frameborder="0" 
-                    allowtransparency="true" 
-                    allow="encrypted-media">
-                </iframe>
-            </div>
-            
-            <div class="widget links-widget">
-                <h3 class="widget-title">Enlaces de Interés</h3>
-                <ul>
-                    <li><a href="https://www.google.com" target="_blank">Google</a></li>
-                    <li><a href="https://www.youtube.com" target="_blank">YouTube</a></li>
-                    <li><a href="https://www.wikipedia.org" target="_blank">Wikipedia</a></li>
-                </ul>
-            </div>
-        </aside>
-        
-        <main class="content-area">
-            <!-- PANEL DE ADMINISTRACIÓN -->
-            <div id="adminPanel" class="admin-panel hidden">
-                <h2>Editor de Publicaciones</h2>
-                <form id="postForm" class="admin-form">
-                    <input type="text" id="postTitle" placeholder="Título de la publicación" required>
-                    <select id="postCategory" required>
-                        <option value="">Selecciona categoría</option>
-                        <option value="Noticia">Noticia</option>
-                        <option value="Video">Video</option>
-                        <option value="Foto">Foto</option>
-                    </select>
-                    <textarea id="postContent" placeholder="Escribe el contenido aquí..."></textarea>
-                    <button type="submit">Guardar Publicación</button>
-                </form>
-            </div>
-            
-            <!-- ACCESO ADMIN -->
-            <div id="adminAccess" class="admin-panel">
-                <h3>Acceso Administrador</h3>
-                <input type="password" id="adminPassword" placeholder="Contraseña">
-                <button onclick="loginAdmin()">Acceder</button>
-            </div>
-            
-            <!-- SECCIONES -->
-            <section id="inicio" class="section active">
-                <h1>Últimas Entradas</h1>
-                <div id="postsContainer">
-                    <div class="entrada">
-                        <h2>Nuevo Álbum "Verde que te quiero verde"</h2>
-                        <p>La banda anuncia su esperado cuarto álbum de estudio que saldrá a la venta el próximo mes.</p>
+            <div class="main-content">
+                <div class="admin-panel">
+                    <h2>Panel de Administración</h2>
+                    
+                    <div id="loginForm">
+                        <h3>Acceso Administrador</h3>
+                        <div class="form-group">
+                            <label for="adminPassword">Contraseña:</label>
+                            <input type="password" id="adminPassword" required>
+                        </div>
+                        <button onclick="loginAdmin()" class="submit-btn">Acceder</button>
                     </div>
                     
-                    <div class="entrada">
-                        <h2>Concierto en el Wizink Center</h2>
-                        <p>Mira las mejores partes de nuestro último concierto en Madrid.</p>
-                    </div>
-                </div>
-            </section>
-            
-            <section id="videos" class="section">
-                <h1>Videos</h1>
-                <div class="entrada">
-                    <h2>Una historia sobre el EsparragoRock</h2>
-                    <div class="video-container">
-                        <iframe width="100%" height="315" src="https://www.youtube.com/embed/bg6dusvXxto?si=PppJUC4LoyRZvOqb" frameborder="0" allowfullscreen></iframe>
-                    </div>
-                </div>
-            </section>
-            
-            <section id="fotos" class="section">
-                <h1>Galería de Fotos</h1>
-                <div class="entrada">
-                    <h2>Backstage</h2>
-                    <img src="https://elegirhoy.com/uploads/fichas-eventos-imagenes/Esparrago%20rock%20Foto.jpg" alt="Backstage" style="width:100%; border-radius:5px;">
-                </div>
-            </section>
-            
-            <section id="contacto" class="section">
-                <h1>Contacto</h1>
-                <div class="entrada">
-                    <div class="contact-form">
-                        <form id="contactForm">
+                    <div id="editorPanel" style="display: none;">
+                        <h3>Editor de Publicaciones</h3>
+                        <form id="postForm" class="admin-form">
                             <div class="form-group">
-                                <label for="name">Nombre:</label>
-                                <input type="text" id="name" name="name" required>
+                                <label for="postTitle">Título:</label>
+                                <input type="text" id="postTitle" required>
                             </div>
                             
                             <div class="form-group">
-                                <label for="email">Email:</label>
-                                <input type="email" id="email" name="email" required>
+                                <label for="postCategory">Categoría:</label>
+                                <select id="postCategory" required>
+                                    <option value="">Selecciona categoría</option>
+                                    <option value="Noticia">Noticia</option>
+                                    <option value="Video">Video</option>
+                                    <option value="Foto">Foto</option>
+                                </select>
                             </div>
                             
                             <div class="form-group">
-                                <label for="subject">Asunto:</label>
-                                <input type="text" id="subject" name="subject" required>
+                                <label for="postContent">Contenido:</label>
+                                <textarea id="postContent"></textarea>
                             </div>
                             
-                            <div class="form-group">
-                                <label for="message">Mensaje:</label>
-                                <textarea id="message" name="message" required></textarea>
-                            </div>
-                            
-                            <button type="submit" class="submit-btn">Enviar Mensaje</button>
+                            <button type="submit" class="submit-btn">Publicar</button>
                         </form>
-                    </div>
-                    
-                    <div style="margin-top:30px; text-align:center;">
-                        <h3>O puedes contactarnos directamente:</h3>
-                        <p>Email: <a href="mailto:contacto@esparragorock.com">contacto@esparragorock.com</a></p>
-                        <p>Teléfono: +34 123 456 789</p>
+                        
+                        <h3 style="margin-top: 30px;">Publicaciones Existentes</h3>
+                        <div id="adminPostsContainer"></div>
                     </div>
                 </div>
-            </section>
-        </main>
+            </div>
+        </div>
     </div>
     
     <footer>
@@ -461,82 +284,88 @@
     </footer>
 
     <script>
-        // CONFIGURACIÓN TINYMCE SEGURA
-        let tinyMCEInitialized = false;
-        
+        // CONFIGURACIÓN TINYMCE
         function initTinyMCE() {
-            if (tinyMCEInitialized) return;
-            
             tinymce.init({
                 selector: '#postContent',
                 plugins: 'advlist link image lists',
                 toolbar: 'bold italic | bullist numlist | link image',
                 menubar: false,
-                height: 300,
-                init_instance_callback: function(editor) {
-                    editor.on('focus', function() {
-                        document.body.contentEditable = 'false';
-                    });
-                }
+                height: 300
             });
-            
-            tinyMCEInitialized = true;
         }
-
-        // GESTIÓN DE AUTENTICACIÓN
+        
+        // AUTENTICACIÓN
         const ADMIN_PASSWORD = "esparragorock2023";
         let isAdmin = false;
         
-        function checkAuth() {
-            const auth = sessionStorage.getItem('esparragorock-auth');
-            if (auth === 'true') {
-                loginAdmin();
-            } else {
-                logoutAdmin();
-            }
-        }
-        
         function loginAdmin() {
-            isAdmin = true;
-            sessionStorage.setItem('esparragorock-auth', 'true');
-            document.getElementById('adminPanel').classList.remove('hidden');
-            document.getElementById('adminAccess').classList.add('hidden');
-            initTinyMCE();
-            loadPosts();
+            const password = document.getElementById('adminPassword').value;
+            if (password === ADMIN_PASSWORD) {
+                isAdmin = true;
+                document.getElementById('loginForm').style.display = 'none';
+                document.getElementById('editorPanel').style.display = 'block';
+                initTinyMCE();
+                loadAdminPosts();
+            } else {
+                alert('Contraseña incorrecta');
+            }
         }
         
         function logoutAdmin() {
             isAdmin = false;
-            sessionStorage.removeItem('esparragorock-auth');
-            document.getElementById('adminPanel').classList.add('hidden');
-            document.getElementById('adminAccess').classList.remove('hidden');
-            
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('editorPanel').style.display = 'none';
             if (tinymce.get('postContent')) {
                 tinymce.get('postContent').setContent('');
             }
+            showPublicSection();
         }
         
-        function showSection(sectionId) {
-            document.querySelectorAll('.section').forEach(section => {
-                section.classList.remove('active');
-            });
-            document.getElementById(sectionId).classList.add('active');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            if (sectionId === 'inicio') loadPosts();
+        // GESTIÓN DE SECCIONES
+        function showPublicSection() {
+            document.getElementById('mainSection').style.display = 'block';
+            document.getElementById('adminSection').style.display = 'none';
+            loadPublicPosts();
         }
         
-        function loadPosts() {
+        function showAdminSection() {
+            document.getElementById('mainSection').style.display = 'none';
+            document.getElementById('adminSection').style.display = 'block';
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('editorPanel').style.display = 'none';
+        }
+        
+        // GESTIÓN DE PUBLICACIONES
+        function loadPublicPosts() {
             const posts = JSON.parse(localStorage.getItem('esparragorock-posts')) || [];
             const container = document.getElementById('postsContainer');
             container.innerHTML = '';
             
-            if (posts.length === 0 && isAdmin) {
-                container.innerHTML = `
-                    <div class="entrada">
-                        <h2>Bienvenido a EsparragoRock</h2>
-                        <p>No hay publicaciones aún. ¡Crea la primera!</p>
-                    </div>
+            if (posts.length === 0) {
+                container.innerHTML = '<p>No hay publicaciones aún.</p>';
+                return;
+            }
+            
+            posts.forEach(post => {
+                const postElement = document.createElement('div');
+                postElement.className = 'entrada';
+                postElement.innerHTML = `
+                    <h2>${post.title}</h2>
+                    <span style="color:#666; font-size:0.9em;">${post.category} • ${post.date}</span>
+                    <div class="post-content">${post.content}</div>
                 `;
+                container.appendChild(postElement);
+            });
+        }
+        
+        function loadAdminPosts() {
+            const posts = JSON.parse(localStorage.getItem('esparragorock-posts')) || [];
+            const container = document.getElementById('adminPostsContainer');
+            container.innerHTML = '';
+            
+            if (posts.length === 0) {
+                container.innerHTML = '<p>No hay publicaciones aún.</p>';
                 return;
             }
             
@@ -544,15 +373,13 @@
                 const postElement = document.createElement('div');
                 postElement.className = 'entrada';
                 postElement.innerHTML = `
-                    <h2>${post.title}</h2>
-                    <span style="color:#666; font-size:0.9em;">${post.category} • ${post.date}</span>
-                    <div class="post-content">${post.content}</div>
-                    ${isAdmin ? `
-                    <div class="entry-actions">
-                        <button class="edit-btn" onclick="editPost(${index})">Editar</button>
-                        <button class="delete-btn" onclick="deletePost(${index})">Eliminar</button>
+                    <h3>${post.title}</h3>
+                    <p><strong>Categoría:</strong> ${post.category}</p>
+                    <p><strong>Fecha:</strong> ${post.date}</p>
+                    <div style="margin-top: 10px;">
+                        <button onclick="editPost(${index})" style="margin-right: 10px;">Editar</button>
+                        <button onclick="deletePost(${index})">Eliminar</button>
                     </div>
-                    ` : ''}
                 `;
                 container.appendChild(postElement);
             });
@@ -575,8 +402,7 @@
             
             this.reset();
             tinymce.get('postContent').setContent('');
-            loadPosts();
-            
+            loadAdminPosts();
             alert('Publicación guardada con éxito');
         });
         
@@ -591,7 +417,7 @@
             posts.splice(index, 1);
             localStorage.setItem('esparragorock-posts', JSON.stringify(posts));
             
-            document.getElementById('adminPanel').scrollIntoView({ behavior: 'smooth' });
+            document.getElementById('postTitle').focus();
         }
         
         function deletePost(index) {
@@ -599,46 +425,15 @@
                 const posts = JSON.parse(localStorage.getItem('esparragorock-posts')) || [];
                 posts.splice(index, 1);
                 localStorage.setItem('esparragorock-posts', JSON.stringify(posts));
-                loadPosts();
+                loadAdminPosts();
+                loadPublicPosts();
             }
         }
         
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Mensaje enviado con éxito. Nos pondremos en contacto contigo pronto.');
-            this.reset();
-        });
-        
-        document.getElementById('adminAccess').addEventListener('submit', function(e) {
-            e.preventDefault();
-            loginAdmin();
-        });
-        
         // INICIALIZACIÓN
         document.addEventListener('DOMContentLoaded', function() {
-            checkAuth();
-            showSection('inicio');
-            
-            // Protección contra edición no deseada
-            document.body.contentEditable = 'false';
-            
-            // Botón de logout
-            const logoutBtn = document.createElement('button');
-            logoutBtn.textContent = 'Cerrar sesión';
-            logoutBtn.style.position = 'fixed';
-            logoutBtn.style.bottom = '10px';
-            logoutBtn.style.right = '10px';
-            logoutBtn.style.zIndex = '1000';
-            logoutBtn.style.padding = '5px 10px';
-            logoutBtn.style.backgroundColor = '#f44336';
-            logoutBtn.style.color = 'white';
-            logoutBtn.style.border = 'none';
-            logoutBtn.style.borderRadius = '3px';
-            logoutBtn.style.cursor = 'pointer';
-            logoutBtn.onclick = logoutAdmin;
-            document.body.appendChild(logoutBtn);
-            
-            if (!isAdmin) logoutBtn.style.display = 'none';
+            showPublicSection();
+            loadPublicPosts();
         });
     </script>
 </body>
