@@ -98,6 +98,12 @@
             display: block;
         }
         
+        .main-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        
         .entrada {
             background-color: #fff;
             border-radius: 8px;
@@ -112,6 +118,51 @@
             margin-bottom: 10px;
         }
         
+        /* FORMULARIO DE CONTACTO */
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        .form-group textarea {
+            min-height: 150px;
+        }
+        
+        .submit-btn {
+            background-color: #2E7D32;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background-color: #1B5E20;
+        }
+        
         /* SECCIÓN ADMIN */
         #adminSection {
             display: none;
@@ -123,6 +174,50 @@
             border-radius: 8px;
             margin-bottom: 30px;
             border: 1px solid #e0e0e0;
+        }
+        
+        .admin-form {
+            display: grid;
+            gap: 15px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* VIDEO RESPONSIVE */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        /* GALERÍA DE FOTOS */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .gallery img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            transition: transform 0.3s;
+        }
+        
+        .gallery img:hover {
+            transform: scale(1.03);
         }
         
         /* FOOTER */
@@ -163,6 +258,13 @@
                         <li><a href="#" onclick="showAdminSection()">Admin</a></li>
                     </ul>
                 </nav>
+                
+                <div class="widget">
+                    <h3 class="widget-title">Today's Top Hits</h3>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                </div>
             </aside>
             
             <div class="main-content">
@@ -172,9 +274,10 @@
                     <div id="postsContainer">
                         <div class="entrada">
                             <h2>Una historia del Espárrago Rock</h2>
-                            <p>Váctor: 01/2022</p>
+                            <p><strong>Váctor:</strong> 01/2022</p>
                             <div class="post-content">
-                                <p>Contenido de la última entrada...</p>
+                                <p>El Espárrago Rock nació como un movimiento musical innovador que combina ritmos tradicionales con sonidos modernos. Esta fusión única ha capturado la atención de audiencias de todas las edades.</p>
+                                <p>En este artículo exploramos los orígenes de este género y su evolución hasta convertirse en un fenómeno cultural.</p>
                             </div>
                         </div>
                     </div>
@@ -186,9 +289,9 @@
                     <div id="videosContainer">
                         <div class="entrada">
                             <h2>Una historia del Espárrago Rock</h2>
-                            <p>Alcández de 01/2022</p>
+                            <p><strong>Alcández:</strong> 01/2022</p>
                             <div class="video-container">
-                                <!-- Video embebido iría aquí -->
+                                <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
                             </div>
                         </div>
                     </div>
@@ -200,7 +303,12 @@
                     <div id="fotosContainer">
                         <div class="entrada">
                             <h2>Backstage</h2>
-                            <!-- Galería de fotos iría aquí -->
+                            <div class="gallery">
+                                <img src="https://via.placeholder.com/400x300?text=Concierto+1" alt="Concierto Espárrago Rock">
+                                <img src="https://via.placeholder.com/400x300?text=Concierto+2" alt="Escenario principal">
+                                <img src="https://via.placeholder.com/400x300?text=Artistas" alt="Artistas en backstage">
+                                <img src="https://via.placeholder.com/400x300?text=Público" alt="Público animado">
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -209,8 +317,28 @@
                 <section id="contacto" class="section">
                     <h1>Contacto</h1>
                     <div class="entrada">
-                        <form id="contactForm">
-                            <!-- Formulario de contacto -->
+                        <form id="contactForm" class="contact-form">
+                            <div class="form-group">
+                                <label for="name">Nombre:</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="email">Email:</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="subject">Asunto:</label>
+                                <input type="text" id="subject" name="subject" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="message">Mensaje:</label>
+                                <textarea id="message" name="message" rows="6" required></textarea>
+                            </div>
+                            
+                            <button type="submit" class="submit-btn">Enviar Mensaje</button>
                         </form>
                     </div>
                 </section>
@@ -232,32 +360,129 @@
             
             <div class="main-content">
                 <div class="admin-panel">
-                    <!-- Panel de administración -->
+                    <div id="loginForm">
+                        <h2>Acceso Administrador</h2>
+                        <div class="form-group">
+                            <label for="adminPassword">Contraseña:</label>
+                            <input type="password" id="adminPassword" required>
+                        </div>
+                        <button onclick="loginAdmin()" class="submit-btn">Acceder</button>
+                    </div>
+                    
+                    <div id="editorPanel" style="display: none;">
+                        <h2>Editor de Publicaciones</h2>
+                        <form id="postForm" class="admin-form">
+                            <div class="form-group">
+                                <label for="postTitle">Título:</label>
+                                <input type="text" id="postTitle" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="postCategory">Categoría:</label>
+                                <select id="postCategory" required>
+                                    <option value="">Selecciona categoría</option>
+                                    <option value="Noticia">Noticia</option>
+                                    <option value="Video">Video</option>
+                                    <option value="Foto">Foto</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="postContent">Contenido:</label>
+                                <textarea id="postContent"></textarea>
+                            </div>
+                            
+                            <button type="submit" class="submit-btn">Publicar</button>
+                        </form>
+                        
+                        <h3 style="margin-top: 30px;">Publicaciones Existentes</h3>
+                        <div id="adminPostsContainer"></div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     
     <footer>
-        <p>© 2023 EsparragoRock - Todos los derechos reservados</p>
+        <p>© 2025 EsparragoRock - Todos los derechos reservados</p>
     </footer>
 
     <script>
-        // FUNCIONES DE NAVEGACIÓN
+        // CONFIGURACIÓN TINYMCE
+        function initTinyMCE() {
+            tinymce.init({
+                selector: '#postContent',
+                plugins: [
+                    'advlist autolink lists link image charmap print preview anchor',
+                    'searchreplace visualblocks code fullscreen',
+                    'insertdatetime media table paste code help wordcount',
+                    'media'
+                ],
+                toolbar: 'undo redo | formatselect | bold italic backcolor | \
+                         alignleft aligncenter alignright alignjustify | \
+                         bullist numlist outdent indent | removeformat | help | \
+                         link image media',
+                menubar: 'file edit view insert format tools help',
+                height: 500,
+                media_url_resolver: function (data, resolve) {
+                    if (data.url.indexOf('youtube.com') !== -1 || data.url.indexOf('youtu.be') !== -1) {
+                        const match = data.url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/);
+                        if (match && match[1]) {
+                            const embedHtml = 
+                                '<div class="video-container">' +
+                                '<iframe width="560" height="315" src="https://www.youtube.com/embed/' + match[1] + 
+                                '" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>' +
+                                '</div>';
+                            resolve({html: embedHtml});
+                        }
+                    }
+                    else {
+                        resolve({html: '<a href="' + data.url + '">' + data.url + '</a>'});
+                    }
+                },
+                content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+            });
+        }
+        
+        // AUTENTICACIÓN
+        const ADMIN_PASSWORD = "esparragorock2023";
+        let isAdmin = false;
+        
+        function loginAdmin() {
+            const password = document.getElementById('adminPassword').value;
+            if (password === ADMIN_PASSWORD) {
+                isAdmin = true;
+                document.getElementById('loginForm').style.display = 'none';
+                document.getElementById('editorPanel').style.display = 'block';
+                initTinyMCE();
+                loadAdminPosts();
+            } else {
+                alert('Contraseña incorrecta');
+            }
+        }
+        
+        function logoutAdmin() {
+            isAdmin = false;
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('editorPanel').style.display = 'none';
+            if (tinymce.get('postContent')) {
+                tinymce.get('postContent').setContent('');
+            }
+            showPublicSection();
+        }
+        
+        // GESTIÓN DE SECCIONES
         function showSection(sectionId) {
-            // Oculta todas las secciones
             document.querySelectorAll('.section').forEach(section => {
                 section.classList.remove('active');
             });
-            
-            // Muestra la sección seleccionada
             document.getElementById(sectionId).classList.add('active');
         }
         
         function showPublicSection() {
             document.getElementById('mainSection').style.display = 'block';
             document.getElementById('adminSection').style.display = 'none';
-            showSection('inicio'); // Mostrar sección inicio por defecto
+            showSection('inicio');
         }
         
         function showAdminSection() {
@@ -265,14 +490,125 @@
             document.getElementById('adminSection').style.display = 'block';
         }
         
+        // GESTIÓN DE PUBLICACIONES
+        function loadAdminPosts() {
+            const posts = JSON.parse(localStorage.getItem('esparragorock-posts')) || [];
+            const container = document.getElementById('adminPostsContainer');
+            container.innerHTML = '';
+            
+            if (posts.length === 0) {
+                container.innerHTML = '<p>No hay publicaciones aún.</p>';
+                return;
+            }
+            
+            posts.forEach((post, index) => {
+                const postElement = document.createElement('div');
+                postElement.className = 'entrada';
+                postElement.innerHTML = `
+                    <h3>${post.title}</h3>
+                    <p><strong>Categoría:</strong> ${post.category}</p>
+                    <p><strong>Fecha:</strong> ${post.date}</p>
+                    <div style="margin-top: 10px;">
+                        <button onclick="editPost(${index})" class="submit-btn" style="margin-right: 10px;">Editar</button>
+                        <button onclick="deletePost(${index})" style="background-color: #f44336; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">Eliminar</button>
+                    </div>
+                `;
+                container.appendChild(postElement);
+            });
+        }
+        
+        document.getElementById('postForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const post = {
+                id: Date.now(),
+                title: document.getElementById('postTitle').value,
+                category: document.getElementById('postCategory').value,
+                content: tinymce.get('postContent').getContent(),
+                date: new Date().toLocaleDateString('es-ES')
+            };
+            
+            const posts = JSON.parse(localStorage.getItem('esparragorock-posts')) || [];
+            posts.unshift(post);
+            localStorage.setItem('esparragorock-posts', JSON.stringify(posts));
+            
+            this.reset();
+            tinymce.get('postContent').setContent('');
+            loadAdminPosts();
+            alert('Publicación guardada con éxito');
+        });
+        
+        function editPost(index) {
+            const posts = JSON.parse(localStorage.getItem('esparragorock-posts')) || [];
+            const post = posts[index];
+            
+            document.getElementById('postTitle').value = post.title;
+            document.getElementById('postCategory').value = post.category;
+            tinymce.get('postContent').setContent(post.content);
+            
+            posts.splice(index, 1);
+            localStorage.setItem('esparragorock-posts', JSON.stringify(posts));
+            
+            document.getElementById('postTitle').focus();
+        }
+        
+        function deletePost(index) {
+            if (confirm('¿Estás seguro de eliminar esta publicación?')) {
+                const posts = JSON.parse(localStorage.getItem('esparragorock-posts')) || [];
+                posts.splice(index, 1);
+                localStorage.setItem('esparragorock-posts', JSON.stringify(posts));
+                loadAdminPosts();
+            }
+        }
+        
+        // FORMULARIO DE CONTACTO
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                subject: document.getElementById('subject').value,
+                message: document.getElementById('message').value,
+                date: new Date().toISOString()
+            };
+            
+            // Guardar en localStorage (simulando base de datos)
+            const contacts = JSON.parse(localStorage.getItem('esparragorock-contacts')) || [];
+            contacts.unshift(formData);
+            localStorage.setItem('esparragorock-contacts', JSON.stringify(contacts));
+            
+            // Mostrar confirmación
+            alert('Gracias por tu mensaje. Nos pondremos en contacto contigo pronto.');
+            
+            // Resetear formulario
+            this.reset();
+        });
+        
         // INICIALIZACIÓN
         document.addEventListener('DOMContentLoaded', function() {
             showPublicSection();
             
-            // Cargar contenido dinámico si es necesario
-            // loadPosts();
-            // loadVideos();
-            // etc.
+            // Cargar datos iniciales si no existen
+            if (!localStorage.getItem('esparragorock-posts')) {
+                const initialPosts = [
+                    {
+                        id: 1,
+                        title: "Una historia del Espárrago Rock",
+                        category: "Noticia",
+                        content: "<p>El Espárrago Rock nació como un movimiento musical innovador que combina ritmos tradicionales con sonidos modernos.</p>",
+                        date: "01/2022"
+                    },
+                    {
+                        id: 2,
+                        title: "Concierto en el Wizink Center",
+                        category: "Video",
+                        content: '<div class="video-container"><iframe width="560" height="315" src="https://www.youtube.com/embed/bg6dusvXxto?si=PppJUC4LoyRZvOqb" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>',
+                        date: "12/2021"
+                    }
+                ];
+                localStorage.setItem('esparragorock-posts', JSON.stringify(initialPosts));
+            }
         });
     </script>
 </body>
