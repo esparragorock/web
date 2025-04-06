@@ -89,6 +89,29 @@
             transform: translateX(5px);
         }
         
+        /* SECCIONES */
+        .section {
+            display: none;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        .entrada {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border-left: 4px solid #4CAF50;
+        }
+        
+        .entrada h2 {
+            color: #2E7D32;
+            margin-bottom: 10px;
+        }
+        
         /* SECCIÓN ADMIN */
         #adminSection {
             display: none;
@@ -100,64 +123,6 @@
             border-radius: 8px;
             margin-bottom: 30px;
             border: 1px solid #e0e0e0;
-        }
-        
-        .admin-form {
-            display: grid;
-            gap: 15px;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        .form-group {
-            margin-bottom: 15px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-        }
-        
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-        
-        .submit-btn {
-            background-color: #2E7D32;
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s;
-        }
-        
-        .submit-btn:hover {
-            background-color: #1B5E20;
-        }
-        
-        /* SECCIONES NORMALES */
-        .main-content {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-        }
-        
-        .entrada {
-            background-color: #fff;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            border-left: 4px solid #4CAF50;
         }
         
         /* FOOTER */
@@ -176,24 +141,6 @@
                 grid-template-columns: 1fr;
             }
         }
-        
-        /* VIDEO RESPONSIVE */
-        .video-container {
-            position: relative;
-            padding-bottom: 56.25%; /* 16:9 */
-            height: 0;
-            overflow: hidden;
-            margin: 20px 0;
-        }
-        
-        .video-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
     </style>
 </head>
 <body>
@@ -210,72 +157,60 @@
                 <nav>
                     <ul>
                         <li><a href="#" onclick="showSection('inicio')">Inicio</a></li>
-                        <li><a href="#" onclick="showSection('videos')">Videos</a></li>
-                        <li><a href="#" onclick="showSection('fotos')">Fotos</a></li>
+                        <li><a href="#" onclick="showSection('videos')">Vídeos</a></li>
+                        <li><a href="#" onclick="showSection('fotos')">Galería de Fotos</a></li>
                         <li><a href="#" onclick="showSection('contacto')">Contacto</a></li>
                         <li><a href="#" onclick="showAdminSection()">Admin</a></li>
                     </ul>
                 </nav>
-                
-                <div class="widget">
-                    <h3 class="widget-title">Today's Top Hits</h3>
-                    <div class="video-container">
-                        <iframe src="https://www.youtube.com/embed/bg6dusvXxto?si=PppJUC4LoyRZvOqb" frameborder="0" allowfullscreen></iframe>
-                    </div>
-                </div>
             </aside>
             
             <div class="main-content">
-                <!-- CONTENIDO PÚBLICO -->
+                <!-- SECCIÓN INICIO -->
                 <section id="inicio" class="section active">
                     <h1>Últimas Entradas</h1>
                     <div id="postsContainer">
-                        <!-- Las publicaciones se cargarán aquí -->
+                        <div class="entrada">
+                            <h2>Una historia del Espárrago Rock</h2>
+                            <p>Váctor: 01/2022</p>
+                            <div class="post-content">
+                                <p>Contenido de la última entrada...</p>
+                            </div>
+                        </div>
                     </div>
                 </section>
                 
+                <!-- SECCIÓN VÍDEOS -->
                 <section id="videos" class="section">
-                    <h1>Videos</h1>
+                    <h1>Vídeos</h1>
                     <div id="videosContainer">
-                        <!-- Los videos se cargarán aquí -->
+                        <div class="entrada">
+                            <h2>Una historia del Espárrago Rock</h2>
+                            <p>Alcández de 01/2022</p>
+                            <div class="video-container">
+                                <!-- Video embebido iría aquí -->
+                            </div>
+                        </div>
                     </div>
                 </section>
                 
+                <!-- SECCIÓN FOTOS -->
                 <section id="fotos" class="section">
                     <h1>Galería de Fotos</h1>
                     <div id="fotosContainer">
                         <div class="entrada">
                             <h2>Backstage</h2>
-                            <img src="https://i0.wp.com/canal.ugr.es/wp-content/uploads/2025/01/5821079634693965455.jpg?ssl=1" alt="Backstage" style="width:100%; border-radius:5px;">
+                            <!-- Galería de fotos iría aquí -->
                         </div>
                     </div>
                 </section>
                 
+                <!-- SECCIÓN CONTACTO -->
                 <section id="contacto" class="section">
                     <h1>Contacto</h1>
                     <div class="entrada">
-                        <form id="contactForm" class="contact-form">
-                            <div class="form-group">
-                                <label for="name">Nombre:</label>
-                                <input type="text" id="name" name="name" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="email">Email:</label>
-                                <input type="email" id="email" name="email" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="subject">Asunto:</label>
-                                <input type="text" id="subject" name="subject" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="message">Mensaje:</label>
-                                <textarea id="message" name="message" rows="6" required></textarea>
-                            </div>
-                            
-                            <button type="submit" class="submit-btn">Enviar Mensaje</button>
+                        <form id="contactForm">
+                            <!-- Formulario de contacto -->
                         </form>
                     </div>
                 </section>
@@ -297,290 +232,47 @@
             
             <div class="main-content">
                 <div class="admin-panel">
-                    <h2>Panel de Administración</h2>
-                    
-                    <div id="loginForm">
-                        <h3>Acceso Administrador</h3>
-                        <div class="form-group">
-                            <label for="adminPassword">Contraseña:</label>
-                            <input type="password" id="adminPassword" required>
-                        </div>
-                        <button onclick="loginAdmin()" class="submit-btn">Acceder</button>
-                    </div>
-                    
-                    <div id="editorPanel" style="display: none;">
-                        <h3>Editor de Publicaciones</h3>
-                        <form id="postForm" class="admin-form">
-                            <div class="form-group">
-                                <label for="postTitle">Título:</label>
-                                <input type="text" id="postTitle" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="postCategory">Categoría:</label>
-                                <select id="postCategory" required>
-                                    <option value="">Selecciona categoría</option>
-                                    <option value="Noticia">Noticia</option>
-                                    <option value="Video">Video</option>
-                                    <option value="Foto">Foto</option>
-                                </select>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="postContent">Contenido:</label>
-                                <textarea id="postContent"></textarea>
-                            </div>
-                            
-                            <button type="submit" class="submit-btn">Publicar</button>
-                        </form>
-                        
-                        <h3 style="margin-top: 30px;">Publicaciones Existentes</h3>
-                        <div id="adminPostsContainer"></div>
-                    </div>
+                    <!-- Panel de administración -->
                 </div>
             </div>
         </div>
     </div>
     
     <footer>
-        <p>© 2025 EsparragoRock - Todos los derechos reservados</p>
+        <p>© 2023 EsparragoRock - Todos los derechos reservados</p>
     </footer>
 
     <script>
-        // CONFIGURACIÓN TINYMCE AVANZADA
-        function initTinyMCE() {
-            tinymce.init({
-                selector: '#postContent',
-                plugins: [
-                    'advlist autolink lists link image charmap print preview anchor',
-                    'searchreplace visualblocks code fullscreen',
-                    'insertdatetime media table paste code help wordcount',
-                    'media'
-                ],
-                toolbar: 'undo redo | formatselect | bold italic backcolor | \
-                         alignleft aligncenter alignright alignjustify | \
-                         bullist numlist outdent indent | removeformat | help | \
-                         link image media',
-                menubar: 'file edit view insert format tools help',
-                height: 500,
-                media_url_resolver: function (data, resolve) {
-                    // Autoembed para YouTube
-                    if (data.url.indexOf('youtube.com') !== -1 || data.url.indexOf('youtu.be') !== -1) {
-                        const match = data.url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/);
-                        if (match && match[1]) {
-                            const embedHtml = 
-                                '<div class="video-container">' +
-                                '<iframe width="560" height="315" src="https://www.youtube.com/embed/' + match[1] + 
-                                '" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>' +
-                                '</div>';
-                            resolve({html: embedHtml});
-                        }
-                    }
-                    // Autoembed para otros servicios (puedes añadir más)
-                    else {
-                        resolve({html: '<a href="' + data.url + '">' + data.url + '</a>'});
-                    }
-                },
-                content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
-            });
-        }
-        
-        // AUTENTICACIÓN
-        const ADMIN_PASSWORD = "esparragorock2023";
-        let isAdmin = false;
-        
-        function loginAdmin() {
-            const password = document.getElementById('adminPassword').value;
-            if (password === ADMIN_PASSWORD) {
-                isAdmin = true;
-                document.getElementById('loginForm').style.display = 'none';
-                document.getElementById('editorPanel').style.display = 'block';
-                initTinyMCE();
-                loadAdminPosts();
-            } else {
-                alert('Contraseña incorrecta');
-            }
-        }
-        
-        function logoutAdmin() {
-            isAdmin = false;
-            document.getElementById('loginForm').style.display = 'block';
-            document.getElementById('editorPanel').style.display = 'none';
-            if (tinymce.get('postContent')) {
-                tinymce.get('postContent').setContent('');
-            }
-            showPublicSection();
-        }
-        
-        // GESTIÓN DE SECCIONES
+        // FUNCIONES DE NAVEGACIÓN
         function showSection(sectionId) {
+            // Oculta todas las secciones
             document.querySelectorAll('.section').forEach(section => {
                 section.classList.remove('active');
             });
+            
+            // Muestra la sección seleccionada
             document.getElementById(sectionId).classList.add('active');
         }
         
         function showPublicSection() {
             document.getElementById('mainSection').style.display = 'block';
             document.getElementById('adminSection').style.display = 'none';
-            showSection('inicio');
-            loadPublicPosts();
-            loadVideos();
+            showSection('inicio'); // Mostrar sección inicio por defecto
         }
         
         function showAdminSection() {
             document.getElementById('mainSection').style.display = 'none';
             document.getElementById('adminSection').style.display = 'block';
-            document.getElementById('loginForm').style.display = 'block';
-            document.getElementById('editorPanel').style.display = 'none';
         }
-        
-        // GESTIÓN DE PUBLICACIONES
-        function loadPublicPosts() {
-            const posts = JSON.parse(localStorage.getItem('esparragorock-posts')) || [];
-            const container = document.getElementById('postsContainer');
-            container.innerHTML = '';
-            
-            if (posts.length === 0) {
-                container.innerHTML = '<div class="entrada"><p>No hay publicaciones aún.</p></div>';
-                return;
-            }
-            
-            posts.forEach(post => {
-                const postElement = document.createElement('div');
-                postElement.className = 'entrada';
-                postElement.innerHTML = `
-                    <h2>${post.title}</h2>
-                    <span style="color:#666; font-size:0.9em;">${post.category} • ${post.date}</span>
-                    <div class="post-content">${post.content}</div>
-                `;
-                container.appendChild(postElement);
-            });
-        }
-        
-        function loadVideos() {
-            const posts = JSON.parse(localStorage.getItem('esparragorock-posts')) || [];
-            const videos = posts.filter(post => post.category === 'Video');
-            const container = document.getElementById('videosContainer');
-            container.innerHTML = '';
-            
-            if (videos.length === 0) {
-                container.innerHTML = '<div class="entrada"><p>No hay videos publicados aún.</p></div>';
-                return;
-            }
-            
-            videos.forEach(video => {
-                const videoElement = document.createElement('div');
-                videoElement.className = 'entrada';
-                videoElement.innerHTML = `
-                    <h2>${video.title}</h2>
-                    <span style="color:#666; font-size:0.9em;">Publicado el ${video.date}</span>
-                    <div class="post-content">${video.content}</div>
-                `;
-                container.appendChild(videoElement);
-            });
-        }
-        
-        function loadAdminPosts() {
-            const posts = JSON.parse(localStorage.getItem('esparragorock-posts')) || [];
-            const container = document.getElementById('adminPostsContainer');
-            container.innerHTML = '';
-            
-            if (posts.length === 0) {
-                container.innerHTML = '<p>No hay publicaciones aún.</p>';
-                return;
-            }
-            
-            posts.forEach((post, index) => {
-                const postElement = document.createElement('div');
-                postElement.className = 'entrada';
-                postElement.innerHTML = `
-                    <h3>${post.title}</h3>
-                    <p><strong>Categoría:</strong> ${post.category}</p>
-                    <p><strong>Fecha:</strong> ${post.date}</p>
-                    <div style="margin-top: 10px;">
-                        <button onclick="editPost(${index})" class="submit-btn" style="margin-right: 10px;">Editar</button>
-                        <button onclick="deletePost(${index})" style="background-color: #f44336; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">Eliminar</button>
-                    </div>
-                `;
-                container.appendChild(postElement);
-            });
-        }
-        
-        document.getElementById('postForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const post = {
-                id: Date.now(),
-                title: document.getElementById('postTitle').value,
-                category: document.getElementById('postCategory').value,
-                content: tinymce.get('postContent').getContent(),
-                date: new Date().toLocaleDateString('es-ES')
-            };
-            
-            const posts = JSON.parse(localStorage.getItem('esparragorock-posts')) || [];
-            posts.unshift(post);
-            localStorage.setItem('esparragorock-posts', JSON.stringify(posts));
-            
-            this.reset();
-            tinymce.get('postContent').setContent('');
-            loadAdminPosts();
-            alert('Publicación guardada con éxito');
-        });
-        
-        function editPost(index) {
-            const posts = JSON.parse(localStorage.getItem('esparragorock-posts')) || [];
-            const post = posts[index];
-            
-            document.getElementById('postTitle').value = post.title;
-            document.getElementById('postCategory').value = post.category;
-            tinymce.get('postContent').setContent(post.content);
-            
-            posts.splice(index, 1);
-            localStorage.setItem('esparragorock-posts', JSON.stringify(posts));
-            
-            document.getElementById('postTitle').focus();
-        }
-        
-        function deletePost(index) {
-            if (confirm('¿Estás seguro de eliminar esta publicación?')) {
-                const posts = JSON.parse(localStorage.getItem('esparragorock-posts')) || [];
-                posts.splice(index, 1);
-                localStorage.setItem('esparragorock-posts', JSON.stringify(posts));
-                loadAdminPosts();
-                loadPublicPosts();
-                loadVideos();
-            }
-        }
-        
-        // FORMULARIO DE CONTACTO FUNCIONAL
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Simulación de envío (en un caso real usarías AJAX o similar)
-            const formData = {
-                name: document.getElementById('name').value,
-                email: document.getElementById('email').value,
-                subject: document.getElementById('subject').value,
-                message: document.getElementById('message').value,
-                date: new Date().toISOString()
-            };
-            
-            // Guardar en localStorage (simulando base de datos)
-            const contacts = JSON.parse(localStorage.getItem('esparragorock-contacts')) || [];
-            contacts.unshift(formData);
-            localStorage.setItem('esparragorock-contacts', JSON.stringify(contacts));
-            
-            // Mostrar confirmación
-            alert('Gracias por tu mensaje. Nos pondremos en contacto contigo pronto.');
-            
-            // Resetear formulario
-            this.reset();
-        });
         
         // INICIALIZACIÓN
         document.addEventListener('DOMContentLoaded', function() {
             showPublicSection();
+            
+            // Cargar contenido dinámico si es necesario
+            // loadPosts();
+            // loadVideos();
+            // etc.
         });
     </script>
 </body>
