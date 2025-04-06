@@ -231,7 +231,7 @@
             margin-top: 30px;
         }
         
-        /* RADIO FLOTANTE */
+        /* RADIO FLOTANTE - NUEVO ESTILO */
         .radio-flotante {
             position: fixed;
             bottom: 0;
@@ -244,14 +244,14 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            color: white;
         }
         
         .radio-info {
-            color: white;
             display: flex;
             align-items: center;
             gap: 10px;
-            min-width: 150px;
+            min-width: 160px;
         }
         
         .radio-controls {
@@ -260,9 +260,38 @@
             margin: 0 20px;
         }
         
-        .radio-logo {
+        .radio-title {
             font-weight: bold;
             color: #FFEB3B;
+        }
+        
+        .radio-play-btn {
+            background: #4CAF50;
+            border: none;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .radio-play-btn:hover {
+            background: #2E7D32;
+            transform: scale(1.1);
+        }
+        
+        .radio-volume {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .radio-volume input[type="range"] {
+            width: 80px;
         }
         
         /* RESPONSIVE */
@@ -277,9 +306,14 @@
             }
             
             .radio-controls {
-                max-width: 100%;
                 width: 100%;
+                max-width: 100%;
                 margin: 10px 0;
+            }
+            
+            .radio-info {
+                width: 100%;
+                justify-content: space-between;
             }
         }
     </style>
@@ -463,30 +497,31 @@
         <p>© 2025 EsparragoRock - Todos los derechos reservados</p>
     </footer>
 
-    <!-- RADIO FLOTANTE INFERIOR -->
+    <!-- RADIO FLOTANTE INFERIOR - NUEVA VERSIÓN -->
     <div class="radio-flotante">
         <div class="radio-info">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
-                <path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/>
-            </svg>
-            <span>EN VIVO</span>
-            <span class="radio-logo">ESPARRAGOROCK RADIO</span>
+            <button class="radio-play-btn" id="radioToggle">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                    <path id="playIcon" d="M3 3l10 5-10 5z"/>
+                </svg>
+            </button>
+            <span class="radio-title">HISPAROCK RADIO</span>
+            <span id="radioStatus">En vivo</span>
         </div>
         
         <div class="radio-controls">
-            <div class="ng-app-embedded">
-                <div ui-view class="microsite embedded-radio-player" 
-                     data-playerwidth="100%" 
-                     data-playerheight="40px"
-                     data-playertype="web_minimal" 
-                     data-playstation="rockenespanol" 
-                     data-autoplay="false" 
-                     data-apikey="df04ff67dd3339a6fc19c9b8be164d5b5245ae93">
-                </div>
+            <audio id="radioPlayer" preload="none">
+                <source src="https://stream.zeno.fm/0r0xa792kwzuv" type="audio/mpeg">
+            </audio>
+            <div class="radio-volume">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="white">
+                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                </svg>
+                <input type="range" id="radioVolume" min="0" max="1" step="0.01" value="0.5">
             </div>
         </div>
         
-        <div style="width: 24px;"></div> <!-- Espaciador -->
+        <div style="min-width: 24px;"></div>
     </div>
 
     <script>
@@ -663,6 +698,65 @@
             this.reset();
         });
         
+        // CONTROLADOR DEL REPRODUCTOR DE RADIO
+        const player = document.getElementById('radioPlayer');
+        const toggleBtn = document.getElementById('radioToggle');
+        const playIcon = document.getElementById('playIcon');
+        const volumeControl = document.getElementById('radioVolume');
+        const radioStatus = document.getElementById('radioStatus');
+        
+        let isPlaying = false;
+        
+        // Control de reproducción
+        toggleBtn.addEventListener('click', function() {
+            if(isPlaying) {
+                player.pause();
+                radioStatus.textContent = "Pausado";
+            } else {
+                player.play()
+                    .then(() => {
+                        radioStatus.textContent = "En vivo";
+                    })
+                    .catch(error => {
+                        console.error("Error al reproducir:", error);
+                        radioStatus.textContent = "Error al cargar";
+                    });
+            }
+            isPlaying = !isPlaying;
+            updatePlayButton();
+        });
+        
+        // Control de volumen
+        volumeControl.addEventListener('input', function() {
+            player.volume = this.value;
+        });
+        
+        // Actualizar estado del botón
+        function updatePlayButton() {
+            if(isPlaying) {
+                playIcon.setAttribute('d', 'M6 19h4V5H6v14zm8-14v14h4V5h-4z');
+            } else {
+                playIcon.setAttribute('d', 'M3 3l10 5-10 5z');
+            }
+        }
+        
+        // Manejar eventos del reproductor
+        player.addEventListener('play', function() {
+            isPlaying = true;
+            updatePlayButton();
+            radioStatus.textContent = "En vivo";
+        });
+        
+        player.addEventListener('pause', function() {
+            isPlaying = false;
+            updatePlayButton();
+            radioStatus.textContent = "Pausado";
+        });
+        
+        player.addEventListener('error', function() {
+            radioStatus.textContent = "Error de conexión";
+        });
+        
         // INICIALIZACIÓN
         document.addEventListener('DOMContentLoaded', function() {
             showPublicSection();
@@ -687,19 +781,6 @@
                 localStorage.setItem('esparragorock-posts', JSON.stringify(initialPosts));
             }
         });
-
-        // Cargar reproductor de radio
-        (function(d, s){
-            if(!window.rel){
-                s = d.createElement("script");
-                s.type = "text/javascript";
-                s.async = true;
-                s.id = "radio-de-embedded";
-                s.src = "https://www.radio.es/inc/microsite/js/full.js";
-                d.getElementsByTagName("head")[0].appendChild(s);
-                window.rel = true;
-            }
-        }(document));
     </script>
 </body>
 </html>
