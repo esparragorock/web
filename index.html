@@ -129,10 +129,6 @@
             font-size: 16px;
         }
         
-        .form-group textarea {
-            min-height: 300px;
-        }
-        
         .submit-btn {
             background-color: #2E7D32;
             color: white;
@@ -180,6 +176,24 @@
                 grid-template-columns: 1fr;
             }
         }
+        
+        /* VIDEO RESPONSIVE */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 */
+            height: 0;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
     </style>
 </head>
 <body>
@@ -203,11 +217,16 @@
                     </ul>
                 </nav>
                 
-                <!-- [Tus widgets aquí] -->
+                <div class="widget">
+                    <h3 class="widget-title">Today's Top Hits</h3>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/bg6dusvXxto?si=PppJUC4LoyRZvOqb" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                </div>
             </aside>
             
             <div class="main-content">
-                <!-- Contenido público -->
+                <!-- CONTENIDO PÚBLICO -->
                 <section id="inicio" class="section active">
                     <h1>Últimas Entradas</h1>
                     <div id="postsContainer">
@@ -215,7 +234,51 @@
                     </div>
                 </section>
                 
-                <!-- [Otras secciones públicas] -->
+                <section id="videos" class="section">
+                    <h1>Videos</h1>
+                    <div id="videosContainer">
+                        <!-- Los videos se cargarán aquí -->
+                    </div>
+                </section>
+                
+                <section id="fotos" class="section">
+                    <h1>Galería de Fotos</h1>
+                    <div id="fotosContainer">
+                        <div class="entrada">
+                            <h2>Backstage</h2>
+                            <img src="https://i0.wp.com/canal.ugr.es/wp-content/uploads/2025/01/5821079634693965455.jpg?ssl=1" alt="Backstage" style="width:100%; border-radius:5px;">
+                        </div>
+                    </div>
+                </section>
+                
+                <section id="contacto" class="section">
+                    <h1>Contacto</h1>
+                    <div class="entrada">
+                        <form id="contactForm" class="contact-form">
+                            <div class="form-group">
+                                <label for="name">Nombre:</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="email">Email:</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="subject">Asunto:</label>
+                                <input type="text" id="subject" name="subject" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="message">Mensaje:</label>
+                                <textarea id="message" name="message" rows="6" required></textarea>
+                            </div>
+                            
+                            <button type="submit" class="submit-btn">Enviar Mensaje</button>
+                        </form>
+                    </div>
+                </section>
             </div>
         </div>
     </div>
@@ -280,18 +343,45 @@
     </div>
     
     <footer>
-        <p>© 2023 EsparragoRock - Todos los derechos reservados</p>
+        <p>© 2025 EsparragoRock - Todos los derechos reservados</p>
     </footer>
 
     <script>
-        // CONFIGURACIÓN TINYMCE
+        // CONFIGURACIÓN TINYMCE AVANZADA
         function initTinyMCE() {
             tinymce.init({
                 selector: '#postContent',
-                plugins: 'advlist link image lists',
-                toolbar: 'bold italic | bullist numlist | link image',
-                menubar: false,
-                height: 300
+                plugins: [
+                    'advlist autolink lists link image charmap print preview anchor',
+                    'searchreplace visualblocks code fullscreen',
+                    'insertdatetime media table paste code help wordcount',
+                    'media'
+                ],
+                toolbar: 'undo redo | formatselect | bold italic backcolor | \
+                         alignleft aligncenter alignright alignjustify | \
+                         bullist numlist outdent indent | removeformat | help | \
+                         link image media',
+                menubar: 'file edit view insert format tools help',
+                height: 500,
+                media_url_resolver: function (data, resolve) {
+                    // Autoembed para YouTube
+                    if (data.url.indexOf('youtube.com') !== -1 || data.url.indexOf('youtu.be') !== -1) {
+                        const match = data.url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/);
+                        if (match && match[1]) {
+                            const embedHtml = 
+                                '<div class="video-container">' +
+                                '<iframe width="560" height="315" src="https://www.youtube.com/embed/' + match[1] + 
+                                '" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>' +
+                                '</div>';
+                            resolve({html: embedHtml});
+                        }
+                    }
+                    // Autoembed para otros servicios (puedes añadir más)
+                    else {
+                        resolve({html: '<a href="' + data.url + '">' + data.url + '</a>'});
+                    }
+                },
+                content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
             });
         }
         
@@ -323,10 +413,19 @@
         }
         
         // GESTIÓN DE SECCIONES
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+        }
+        
         function showPublicSection() {
             document.getElementById('mainSection').style.display = 'block';
             document.getElementById('adminSection').style.display = 'none';
+            showSection('inicio');
             loadPublicPosts();
+            loadVideos();
         }
         
         function showAdminSection() {
@@ -343,7 +442,7 @@
             container.innerHTML = '';
             
             if (posts.length === 0) {
-                container.innerHTML = '<p>No hay publicaciones aún.</p>';
+                container.innerHTML = '<div class="entrada"><p>No hay publicaciones aún.</p></div>';
                 return;
             }
             
@@ -356,6 +455,29 @@
                     <div class="post-content">${post.content}</div>
                 `;
                 container.appendChild(postElement);
+            });
+        }
+        
+        function loadVideos() {
+            const posts = JSON.parse(localStorage.getItem('esparragorock-posts')) || [];
+            const videos = posts.filter(post => post.category === 'Video');
+            const container = document.getElementById('videosContainer');
+            container.innerHTML = '';
+            
+            if (videos.length === 0) {
+                container.innerHTML = '<div class="entrada"><p>No hay videos publicados aún.</p></div>';
+                return;
+            }
+            
+            videos.forEach(video => {
+                const videoElement = document.createElement('div');
+                videoElement.className = 'entrada';
+                videoElement.innerHTML = `
+                    <h2>${video.title}</h2>
+                    <span style="color:#666; font-size:0.9em;">Publicado el ${video.date}</span>
+                    <div class="post-content">${video.content}</div>
+                `;
+                container.appendChild(videoElement);
             });
         }
         
@@ -377,8 +499,8 @@
                     <p><strong>Categoría:</strong> ${post.category}</p>
                     <p><strong>Fecha:</strong> ${post.date}</p>
                     <div style="margin-top: 10px;">
-                        <button onclick="editPost(${index})" style="margin-right: 10px;">Editar</button>
-                        <button onclick="deletePost(${index})">Eliminar</button>
+                        <button onclick="editPost(${index})" class="submit-btn" style="margin-right: 10px;">Editar</button>
+                        <button onclick="deletePost(${index})" style="background-color: #f44336; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">Eliminar</button>
                     </div>
                 `;
                 container.appendChild(postElement);
@@ -427,13 +549,38 @@
                 localStorage.setItem('esparragorock-posts', JSON.stringify(posts));
                 loadAdminPosts();
                 loadPublicPosts();
+                loadVideos();
             }
         }
+        
+        // FORMULARIO DE CONTACTO FUNCIONAL
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Simulación de envío (en un caso real usarías AJAX o similar)
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                subject: document.getElementById('subject').value,
+                message: document.getElementById('message').value,
+                date: new Date().toISOString()
+            };
+            
+            // Guardar en localStorage (simulando base de datos)
+            const contacts = JSON.parse(localStorage.getItem('esparragorock-contacts')) || [];
+            contacts.unshift(formData);
+            localStorage.setItem('esparragorock-contacts', JSON.stringify(contacts));
+            
+            // Mostrar confirmación
+            alert('Gracias por tu mensaje. Nos pondremos en contacto contigo pronto.');
+            
+            // Resetear formulario
+            this.reset();
+        });
         
         // INICIALIZACIÓN
         document.addEventListener('DOMContentLoaded', function() {
             showPublicSection();
-            loadPublicPosts();
         });
     </script>
 </body>
