@@ -1,0 +1,824 @@
+/* --- Variables CSS --- */
+:root {
+    --font-family-base: 'Poppins', sans-serif;
+    --color-primary: #4CAF50; /* Verde principal */
+    --color-primary-dark: #2E7D32;
+    --color-primary-darker: #1B5E20;
+    --color-secondary: #8BC34A; /* Verde más claro */
+    --color-text: #333;
+    --color-text-light: #f8f9fa;
+    --color-text-muted: #6c757d;
+    --color-background: #f4f7f6; /* Un gris muy claro, casi blanco */
+    --color-surface: white; /* Fondo para cards, main content */
+    --color-border: #e0e0e0;
+    --color-accent: #FFEB3B; /* Amarillo para destacar (ej. radio status) */
+    --shadow-light: 0 2px 5px rgba(0, 0, 0, 0.08);
+    --shadow-medium: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --shadow-player: 0 -3px 15px rgba(0, 0, 0, 0.15); /* Sombra para el player */
+    --border-radius-small: 4px;
+    --border-radius-medium: 8px;
+    /* Ajuste de altura para cabecera (para logo más grande) */
+    --header-height: 180px;
+    --radio-player-height: 75px; /* Altura del reproductor (ajustada ligeramente) */
+    --sidebar-width: 260px;
+}
+
+/* --- Reset y Estilos Generales --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-family-base);
+    background-color: var(--color-background);
+    color: var(--color-text);
+    min-height: 100vh;
+    padding-bottom: var(--radio-player-height); /* Espacio para la radio flotante */
+    line-height: 1.6;
+    font-size: 16px; /* Base font size */
+}
+
+/* Utilidad para ocultar visualmente pero mantener para accesibilidad */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+h1, h2, h3 {
+    color: var(--color-primary-dark);
+    margin-bottom: 0.8em;
+    line-height: 1.3;
+    font-weight: 600; /* Un poco más de peso */
+}
+h1 { font-size: 2rem; }
+h2 { font-size: 1.5rem; }
+h3 { font-size: 1.2rem; }
+
+a {
+    color: var(--color-primary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+a:hover {
+    color: var(--color-primary-dark);
+    text-decoration: underline;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* --- Cabecera --- */
+header {
+    background: linear-gradient(135deg, var(--color-primary-dark), var(--color-primary));
+    padding: 20px;
+    text-align: center;
+    box-shadow: var(--shadow-medium);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: var(--header-height); /* Usa la variable aumentada */
+    position: relative;
+    z-index: 10;
+}
+
+.logo-container {
+    /* Ajusta max-width si tu logo es muy ancho o muy alto */
+    max-width: 400px; /* Permitir más ancho si es necesario */
+    width: 70vw; /* Flexible */
+}
+
+.logo {
+    max-height: 150px; /* <-- ALTURA MÁXIMA AUMENTADA PARA EL LOGO */
+    width: auto; /* Ancho automático para mantener proporción */
+    object-fit: contain; /* Asegura que se vea completo sin distorsión */
+}
+
+/* --- Área de Contenido Principal --- */
+.content-area {
+    max-width: 1300px;
+    margin: 30px auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: var(--sidebar-width) 1fr;
+    gap: 30px;
+}
+
+/* --- Barra Lateral (Aside) --- */
+aside {
+    background-color: var(--color-primary-dark);
+    color: var(--color-text-light);
+    padding: 25px;
+    border-radius: var(--border-radius-medium);
+    box-shadow: var(--shadow-light);
+    position: sticky;
+    top: 20px;
+    align-self: start; /* Evita que se estire si el contenido principal es más largo */
+    /* Limitamos altura y permitimos scroll si es necesario */
+    max-height: calc(100vh - 40px - var(--radio-player-height));
+    overflow-y: auto;
+}
+/* Estilo para scrollbar (opcional, para Webkit) */
+aside::-webkit-scrollbar {
+    width: 8px;
+}
+aside::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+}
+aside::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+}
+aside::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+
+aside nav ul {
+    list-style: none;
+    margin-bottom: 30px;
+}
+
+aside nav ul li {
+    margin-bottom: 10px;
+}
+
+aside nav ul li a {
+    color: var(--color-text-light);
+    text-decoration: none;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 15px;
+    border-radius: var(--border-radius-small);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-weight: 600;
+}
+aside nav ul li a:hover,
+aside nav ul li a:focus {
+    background-color: var(--color-primary);
+    transform: translateX(4px);
+    outline: none;
+    color: white;
+    text-decoration: none; /* Quitar subrayado en hover */
+}
+aside nav ul li a.admin-link {
+    margin-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    padding-top: 15px;
+    color: var(--color-accent);
+}
+aside nav ul li a.admin-link:hover {
+     background-color: rgba(255, 235, 59, 0.2);
+     color: white; /* Mantener blanco al hacer hover */
+}
+
+
+/* --- Widgets en Sidebar --- */
+.widget {
+    background-color: rgba(255, 255, 255, 0.08);
+    border-radius: var(--border-radius-small);
+    padding: 20px 15px; /* Más padding vertical */
+    margin-top: 25px;
+}
+
+.widget-title {
+    font-size: 0.9rem;
+    font-weight: 700; /* Más bold */
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    color: var(--color-text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+
+/* --- Contenido Principal (Derecha) --- */
+.main-content {
+    background-color: var(--color-surface);
+    padding: 30px;
+    border-radius: var(--border-radius-medium);
+    box-shadow: var(--shadow-light);
+}
+
+/* --- Secciones (Inicio, Vídeos, etc.) --- */
+.section {
+    display: none;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.section.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Entradas/Artículos --- */
+.entrada {
+    background-color: #fff;
+    border-radius: var(--border-radius-medium);
+    padding: 25px;
+    margin-bottom: 25px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    border-left: 5px solid var(--color-primary);
+    transition: box-shadow 0.3s ease;
+}
+.entrada:hover {
+    box-shadow: var(--shadow-medium);
+}
+
+.entrada h2 {
+    color: var(--color-primary-dark);
+    margin-top: 0;
+    margin-bottom: 8px;
+    font-size: 1.4rem; /* Ajustar tamaño si es necesario */
+}
+
+.entrada p.post-meta {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    margin-bottom: 15px;
+    font-style: italic;
+}
+
+.post-content {
+    font-size: 1rem;
+    color: var(--color-text);
+}
+.post-content p {
+    margin-bottom: 1em;
+}
+.post-content img {
+     border-radius: var(--border-radius-small);
+     margin: 20px 0; /* Más margen */
+     box-shadow: var(--shadow-light);
+}
+.post-content > *:first-child {
+    margin-top: 0; /* Evitar margen extra en el primer elemento del contenido */
+}
+
+/* --- Video Responsive --- */
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 */
+    height: 0;
+    overflow: hidden;
+    margin: 20px 0;
+    border-radius: var(--border-radius-medium);
+    box-shadow: var(--shadow-light);
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* --- Galería de Fotos --- */
+/* Si la galería está dentro de .post-content o .entrada */
+.entrada .gallery, .post-content .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 20px; /* Espacio antes de la galería */
+}
+
+.gallery img {
+    width: 100%;
+    height: 180px; /* Altura fija para uniformidad */
+    object-fit: cover; /* Recortar para ajustar */
+    border-radius: var(--border-radius-small);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.gallery img:hover {
+    transform: scale(1.03);
+    box-shadow: var(--shadow-medium);
+}
+
+/* --- Formularios --- */
+.contact-form, .admin-form {
+    max-width: 700px;
+    margin: 20px auto;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"],
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-small);
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    background-color: #fdfdfd; /* Fondo ligeramente distinto */
+}
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+    background-color: #fff; /* Fondo blanco al enfocar */
+}
+
+.form-group textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+/* Botones */
+.submit-btn, .cancel-btn, .edit-btn, .delete-btn {
+    border: none;
+    padding: 10px 20px;
+    border-radius: var(--border-radius-small);
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.1s ease, box-shadow 0.2s ease;
+    font-family: inherit;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.submit-btn:hover, .cancel-btn:hover, .edit-btn:hover, .delete-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+}
+.submit-btn:active, .cancel-btn:active, .edit-btn:active, .delete-btn:active {
+    transform: translateY(0px);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+
+.submit-btn {
+    background-color: var(--color-primary-dark);
+    color: white;
+}
+.submit-btn:hover {
+    background-color: var(--color-primary-darker);
+}
+
+.cancel-btn {
+    background-color: var(--color-text-muted);
+    color: white;
+    margin-left: 10px;
+}
+.cancel-btn:hover {
+     background-color: #5a6268;
+}
+
+.edit-btn {
+     background-color: #ffc107; /* Amarillo */
+     color: #333;
+}
+.edit-btn:hover {
+    background-color: #e0a800;
+}
+
+.delete-btn {
+    background-color: #dc3545; /* Rojo */
+    color: white;
+}
+.delete-btn:hover {
+    background-color: #c82333;
+}
+
+.small-btn {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+}
+
+
+/* --- Sección Admin --- */
+.admin-panel {
+    background-color: #f8f9fa; /* Fondo ligeramente diferente */
+    padding: 30px;
+    border-radius: var(--border-radius-medium);
+    border: 1px solid var(--color-border);
+}
+
+#editorPanel h2, #editorPanel h3 {
+    color: var(--color-primary-dark);
+    margin-bottom: 1.2em; /* Más espacio debajo de títulos admin */
+}
+
+.admin-post-item {
+    display: flex;
+    flex-wrap: wrap; /* Permitir que los botones bajen en pantallas estrechas */
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px; /* Padding alrededor */
+    border-bottom: 1px solid var(--color-border);
+    background-color: white; /* Fondo blanco para cada item */
+    margin-bottom: 10px; /* Espacio entre items */
+    border-radius: var(--border-radius-small);
+    box-shadow: var(--shadow-light);
+}
+.admin-post-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+.admin-post-info {
+    flex-grow: 1; /* Ocupar espacio disponible */
+    margin-right: 15px; /* Espacio antes de los botones */
+}
+.admin-post-info h3 {
+    margin: 0 0 5px 0;
+    font-size: 1.1rem;
+    color: var(--color-text);
+}
+.admin-post-info p {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    margin: 0;
+}
+.admin-post-actions {
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0; /* Evitar que los botones se encojan demasiado */
+}
+
+/* Mensaje de error login */
+#loginError {
+    color: #dc3545;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+/* --- Footer --- */
+footer {
+    background-color: var(--color-primary-darker);
+    color: rgba(255, 255, 255, 0.8);
+    text-align: center;
+    padding: 20px;
+    font-size: 0.9rem;
+    margin-top: 40px;
+    position: relative;
+    z-index: 1;
+}
+
+/* --- RADIO FLOTANTE --- */
+.radio-flotante {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: var(--radio-player-height);
+    background: linear-gradient(to right, #212121, #3a3a3a); /* Gradiente oscuro sutil */
+    padding: 0 25px;
+    z-index: 1000;
+    box-shadow: var(--shadow-player);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--color-text-light);
+    border-top: 3px solid var(--color-primary);
+}
+
+.radio-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    /* Limitar ancho para evitar que empuje los controles */
+    flex-shrink: 1;
+    min-width: 0; /* Permite que encoja */
+}
+
+.radio-play-btn {
+    background: var(--color-primary);
+    border: none;
+    color: white;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    padding: 0;
+    flex-shrink: 0; /* Evitar que el botón se encoja */
+}
+.radio-play-btn svg {
+    width: 24px;
+    height: 24px;
+    fill: white;
+}
+.radio-play-btn:hover {
+    background: var(--color-secondary);
+    transform: scale(1.05);
+}
+.radio-play-btn:active {
+    transform: scale(0.98);
+}
+
+.radio-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.3;
+    /* Evitar que el texto se desborde */
+    overflow: hidden;
+    white-space: nowrap;
+    min-width: 0; /* Permite que encoja */
+}
+
+.radio-title {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: white;
+    letter-spacing: 0.5px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+/* Estilo para el título de la canción (NUEVO) */
+.radio-song-title {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.85); /* Blanco un poco menos brillante */
+    display: block;
+    margin-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Puntos suspensivos si no cabe */
+    max-width: 100%; /* Ocupa el ancho disponible en su contenedor */
+    font-style: italic;
+    font-weight: 400;
+}
+
+.radio-status-text {
+    font-size: 0.75rem; /* Más pequeño */
+    color: var(--color-accent);
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-top: 3px;
+    letter-spacing: 1px; /* Más espaciado */
+}
+.radio-status-text:is(:contains("En vivo"), :contains("Playing")) {
+    animation: pulseStatus 1.8s infinite ease-in-out;
+}
+@keyframes pulseStatus { /* Cambiado nombre y duración */
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+
+.radio-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-shrink: 0; /* Evitar que los controles se encojan */
+}
+
+.radio-volume-control {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.volume-icon {
+    fill: rgba(255, 255, 255, 0.7);
+    width: 20px;
+    height: 20px;
+}
+
+/* Estilo para el input range (Slider de Volumen) */
+input[type="range"]#radioVolume {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100px;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+    cursor: pointer;
+    outline: none;
+    transition: background 0.2s ease;
+}
+input[type="range"]#radioVolume:hover {
+     background: rgba(255, 255, 255, 0.5);
+}
+
+/* Thumb (bolita) Webkit (Chrome, Safari) */
+input[type="range"]#radioVolume::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: var(--color-primary);
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid white;
+    margin-top: -5px; /* Ajuste vertical */
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+input[type="range"]#radioVolume:hover::-webkit-slider-thumb {
+    background: var(--color-secondary);
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+/* Thumb Firefox */
+input[type="range"]#radioVolume::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    background: var(--color-primary);
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid white;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+input[type="range"]#radioVolume:hover::-moz-range-thumb {
+     background: var(--color-secondary);
+     box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+/* Ocultar el audio tag visualmente */
+#radioPlayer {
+    width: 1px;
+    height: 1px;
+    position: absolute;
+    left: -9999px;
+}
+
+
+/* --- Responsive --- */
+@media (max-width: 992px) {
+    .content-area {
+        /* Mantiene sidebar en tablet, pero con menos gap */
+        grid-template-columns: var(--sidebar-width) 1fr;
+        gap: 20px;
+    }
+     aside {
+        position: static; /* Quita el sticky */
+        height: auto;
+        margin-bottom: 20px;
+        max-height: none; /* Quita límite de altura */
+        overflow-y: visible; /* Quita scroll */
+    }
+    .radio-song-title {
+         max-width: 180px; /* Limitar un poco en tablet */
+    }
+}
+
+
+@media (max-width: 768px) {
+    :root {
+        --header-height: 120px; /* Más bajo en móvil */
+        --radio-player-height: 110px; /* Más alto para acomodar 3 líneas */
+        --sidebar-width: 100%;
+    }
+
+    body {
+         padding-bottom: var(--radio-player-height);
+         font-size: 15px; /* Ligeramente más pequeño en móvil */
+    }
+
+    header {
+        min-height: var(--header-height);
+    }
+    .logo {
+         max-height: 80px; /* Reducir logo en móvil */
+    }
+
+    .content-area {
+        grid-template-columns: 1fr; /* Columna única */
+        margin-top: 20px;
+        gap: 20px; /* Reducir gap */
+    }
+
+    aside {
+        padding: 20px;
+        position: static;
+        height: auto;
+        margin-bottom: 20px;
+    }
+    aside nav ul {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+        margin-bottom: 20px;
+    }
+     aside nav ul li {
+         margin-bottom: 0;
+     }
+     aside nav ul li a {
+         padding: 8px 12px;
+         font-size: 0.9rem;
+         transform: none !important;
+         background-color: rgba(255, 255, 255, 0.1);
+     }
+     aside nav ul li a:hover,
+     aside nav ul li a:focus {
+         background-color: var(--color-primary);
+     }
+
+    .main-content {
+        padding: 20px;
+    }
+
+    .entrada {
+        padding: 20px;
+    }
+    h1 { font-size: 1.8rem; }
+    h2 { font-size: 1.3rem; }
+    .entrada h2 { font-size: 1.2rem; } /* Títulos de entrada más pequeños */
+
+    .gallery img {
+        height: 150px; /* Imágenes de galería más pequeñas */
+    }
+
+    /* Radio Player en móvil */
+    .radio-flotante {
+        height: var(--radio-player-height);
+        padding: 10px 15px;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center; /* Centrar todo */
+        gap: 5px; /* Menos espacio entre filas */
+        border-top-width: 2px;
+    }
+    .radio-info {
+        width: 100%;
+        justify-content: center;
+        gap: 10px;
+        order: 1; /* Botón y texto primero */
+    }
+    .radio-play-btn {
+        width: 40px;
+        height: 40px;
+    }
+    .radio-play-btn svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .radio-text {
+        text-align: center;
+        flex-grow: 1;
+        min-width: 0; /* Asegura que pueda encoger */
+        width: calc(100% - 50px); /* Ancho menos el botón aprox */
+    }
+     .radio-title {
+        font-size: 0.8rem;
+    }
+    .radio-song-title {
+        font-size: 0.85rem; /* Un poco más grande que el título en móvil */
+        max-width: 100%; /* Ocupa todo el ancho disponible */
+        font-style: normal; /* Quitar itálica si se prefiere */
+    }
+    .radio-status-text {
+        font-size: 0.7rem;
+        margin-top: 2px;
+    }
+
+    .radio-controls {
+        width: 100%;
+        justify-content: center;
+        order: 2; /* Controles de volumen debajo */
+        margin-top: 5px; /* Pequeño espacio superior */
+    }
+     input[type="range"]#radioVolume {
+        width: 150px; /* Slider más ancho */
+    }
+    .volume-icon {
+         width: 18px; height: 18px;
+    }
+}

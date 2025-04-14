@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EsparragoRock</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Tu Hoja de Estilos -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- TinyMCE -->
+    <script src="https://cdn.tiny.cloud/1/o5mqnr5djvfimdhzmr4gy75hs331z92okm1n7ehbjcyz3yc5/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="https://i.postimg.cc/Kcnwb8w1/rect1810-1.png" alt="EsparragoRock Logo" class="logo">
+        </div>
+    </header>
+
+    <!-- SECCIÓN PRINCIPAL (pública) -->
+    <div id="mainSection">
+        <div class="content-area">
+            <aside>
+                <nav>
+                    <h2 class="visually-hidden">Navegación Principal</h2>
+                    <ul>
+                        <li><a href="#" onclick="showSection('inicio')">Inicio</a></li>
+                        <li><a href="#" onclick="showSection('videos')">Vídeos</a></li>
+                        <li><a href="#" onclick="showSection('fotos')">Galería</a></li>
+                        <li><a href="#" onclick="showSection('contacto')">Contacto</a></li>
+                        <li><a href="#" onclick="showAdminSection()" class="admin-link">Admin</a></li>
+                    </ul>
+                </nav>
+                <div class="widget">
+                    <h3 class="widget-title">Vídeo Destacado</h3>
+                    <div class="video-container">
+                        <iframe
+                            src="https://www.youtube.com/embed/bg6dusvXxto?rel=0"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+            </aside>
+            <div class="main-content">
+                <section id="inicio" class="section active">
+                    <h1>Últimas Entradas</h1>
+                    <div id="postsContainer"><article class="entrada"><h2>Cargando entradas...</h2><p class="post-meta"></p><div class="post-content"><p>...</p></div></article></div>
+                </section>
+                <section id="videos" class="section">
+                    <h1>Vídeos</h1>
+                    <div id="videosContainer"><article class="entrada"><h2>Cargando vídeos...</h2></article></div>
+                </section>
+                <section id="fotos" class="section">
+                    <h1>Galería de Fotos</h1>
+                    <div id="fotosContainer"><article class="entrada"><h2>Cargando galería...</h2></article></div>
+                </section>
+                <section id="contacto" class="section">
+                    <h1>Contacto</h1>
+                    <div class="entrada">
+                        <h2>Envíanos un mensaje</h2>
+                        <form id="contactForm" class="contact-form">
+                            <div class="form-group"><label for="name">Nombre:</label><input type="text" id="name" name="name" required></div>
+                            <div class="form-group"><label for="email">Email:</label><input type="email" id="email" name="email" required></div>
+                            <div class="form-group"><label for="subject">Asunto:</label><input type="text" id="subject" name="subject" required></div>
+                            <div class="form-group"><label for="message">Mensaje:</label><textarea id="message" name="message" rows="6" required></textarea></div>
+                            <button type="submit" class="submit-btn">Enviar Mensaje</button>
+                        </form>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECCIÓN ADMIN (privada) -->
+    <div id="adminSection" style="display: none;">
+        <div class="content-area">
+            <aside>
+                <nav><h2 class="visually-hidden">Navegación Admin</h2><ul><li><a href="#" onclick="showPublicSection()">Volver al sitio</a></li><li><a href="#" onclick="logoutAdmin()">Cerrar sesión</a></li></ul></nav>
+            </aside>
+            <div class="main-content">
+                <div class="admin-panel">
+                    <div id="loginForm">
+                        <h2>Acceso Administrador</h2>
+                        <div class="form-group"><label for="adminPassword">Contraseña:</label><input type="password" id="adminPassword" required></div>
+                        <button onclick="loginAdmin()" class="submit-btn">Acceder</button>
+                        <p id="loginError" class="error-message" style="display: none; color: red; margin-top: 10px;">Contraseña incorrecta</p>
+                    </div>
+                    <div id="editorPanel" style="display: none;">
+                        <h2>Editor de Publicaciones</h2>
+                        <form id="postForm" class="admin-form">
+                             <input type="hidden" id="postId">
+                            <div class="form-group"><label for="postTitle">Título:</label><input type="text" id="postTitle" required></div>
+                            <div class="form-group"><label for="postCategory">Categoría:</label><select id="postCategory" required><option value="">Selecciona categoría</option><option value="Noticia">Noticia</option><option value="Video">Video</option><option value="Foto">Foto</option></select></div>
+                            <div class="form-group"><label for="postContent">Contenido:</label><textarea id="postContent"></textarea></div>
+                            <button type="submit" class="submit-btn" id="submitPostBtn">Guardar Publicación</button>
+                            <button type="button" onclick="cancelEdit()" class="cancel-btn" id="cancelEditBtn" style="display: none;">Cancelar Edición</button>
+                        </form>
+                        <h3 style="margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px;">Publicaciones Existentes</h3>
+                        <div id="adminPostsContainer">Cargando publicaciones...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© <span id="currentYear"></span> EsparragoRock - Todos los derechos reservados</p>
+    </footer>
+
+    <!-- RADIO FLOTANTE INFERIOR -->
+    <div class="radio-flotante">
+        <div class="radio-info">
+            <button class="radio-play-btn" id="radioToggle" aria-label="Reproducir/Pausar Radio">
+                <svg id="playIconSvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24px" height="24px"><path d="M8 5v14l11-7z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
+                 <svg id="pauseIconSvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24px" height="24px" style="display: none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
+            </button>
+            <div class="radio-text">
+                 <span class="radio-title">LA ESPÁRRAGO ROCK RADIO</span>
+                 <span id="radioCurrentSong" class="radio-song-title">-- Cargando --</span>
+                 <span id="radioStatus" class="radio-status-text">Offline</span>
+            </div>
+        </div>
+        <div class="radio-controls">
+             <audio id="radioPlayer" preload="none"><source src="https://uk2freenew.listen2myradio.com/live.mp3" type="audio/mpeg">Tu navegador no soporta el elemento de audio.</audio>
+             <div class="radio-volume-control">
+                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20px" height="20px" class="volume-icon"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+                 <input type="range" id="radioVolume" min="0" max="1" step="0.01" value="0.5" aria-label="Control de Volumen">
+             </div>
+        </div>
+    </div>
+
+        <!-- ======================= INICIO BLOQUE SCRIPT (INTERVALO 30s y Catch Suave) ======================= -->
+        <script>
+            // --- CONFIGURACIÓN ---
+            const ADMIN_PASSWORD = "esparragorock2023";
+            const RADIO_STREAM_URL = "https://uk2freenew.listen2myradio.com/live.mp3?typeportmount=s2_10718_stream_544876668";
+            const SONG_INFO_URL = "http://uk2freenew.listen2myradio.com:10718/currentsong?sid=1";
+            // *** INTERVALO AUMENTADO ***
+            const FETCH_SONG_INTERVAL = 30000; // Actualizar canción cada 30 segundos
+    
+            // --- ELEMENTOS DEL DOM ---
+            const mainSection = document.getElementById('mainSection');
+            const adminSection = document.getElementById('adminSection');
+            const loginForm = document.getElementById('loginForm');
+            const editorPanel = document.getElementById('editorPanel');
+            const postForm = document.getElementById('postForm');
+            const adminPasswordInput = document.getElementById('adminPassword');
+            const loginErrorMsg = document.getElementById('loginError');
+            const postsContainer = document.getElementById('postsContainer');
+            const videosContainer = document.getElementById('videosContainer');
+            const fotosContainer = document.getElementById('fotosContainer');
+            const adminPostsContainer = document.getElementById('adminPostsContainer');
+            const contactForm = document.getElementById('contactForm');
+            const radioPlayer = document.getElementById('radioPlayer');
+            const radioToggleBtn = document.getElementById('radioToggle');
+            const playIcon = document.getElementById('playIconSvg');
+            const pauseIcon = document.getElementById('pauseIconSvg');
+            const radioVolumeControl = document.getElementById('radioVolume');
+            const radioStatus = document.getElementById('radioStatus');
+            const radioCurrentSongSpan = document.getElementById('radioCurrentSong');
+            const currentYearSpan = document.getElementById('currentYear');
+            const postIdInput = document.getElementById('postId');
+            const submitPostBtn = document.getElementById('submitPostBtn');
+            const cancelEditBtn = document.getElementById('cancelEditBtn');
+    
+            // --- ESTADO DE LA APLICACIÓN ---
+            let isAdmin = false;
+            let isRadioPlaying = false;
+            let currentEditIndex = null;
+            let currentSong = '';
+            let songFetchIntervalId = null;
+    
+            // --- DEFINICIONES DE FUNCIONES ---
+    
+            function initTinyMCE() {
+                if (tinymce.get('postContent')) { tinymce.get('postContent').remove(); }
+                tinymce.init({ selector: '#postContent', plugins: 'advlist autolink lists link image charmap preview anchor searchreplace visualblocks code fullscreen insertdatetime media table paste code help wordcount media', toolbar: 'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | link image media | code | help', menubar: 'file edit view insert format tools table help', height: 400, content_css: 'styles.css', media_url_resolver: (data, resolve) => { const youtubeRegex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/; const match = data.url.match(youtubeRegex); if (match && match[1]) { const embedHtml = `<div class="video-container"><iframe width="560" height="315" src="https://www.youtube.com/embed/${match[1]}?rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`; resolve({ html: embedHtml }); } else { resolve({ html: `<a href="${data.url}">${data.url}</a>` }); } }, setup: function(editor) { editor.on('change', function() { tinymce.triggerSave(); }); } });
+            }
+            function loginAdmin() { if (adminPasswordInput.value === ADMIN_PASSWORD) { isAdmin = true; loginForm.style.display = 'none'; loginErrorMsg.style.display = 'none'; editorPanel.style.display = 'block'; adminPasswordInput.value = ''; if (!tinymce.get('postContent')) { initTinyMCE(); } loadAdminPosts(); } else { loginErrorMsg.style.display = 'block'; isAdmin = false; } }
+            function logoutAdmin() { isAdmin = false; loginForm.style.display = 'block'; editorPanel.style.display = 'none'; loginErrorMsg.style.display = 'none'; showPublicSection(); }
+            function showSection(sectionId) { document.querySelectorAll('.section').forEach(section => section.classList.remove('active')); const activeSection = document.getElementById(sectionId); if (activeSection) { activeSection.classList.add('active'); } else { console.warn(`Sección "${sectionId}" no encontrada.`); document.getElementById('inicio')?.classList.add('active'); } }
+            function showPublicSection() { mainSection.style.display = 'block'; adminSection.style.display = 'none'; showSection('inicio'); }
+            function showAdminSection() { mainSection.style.display = 'none'; adminSection.style.display = 'block'; if (!isAdmin) { loginForm.style.display = 'block'; editorPanel.style.display = 'none'; } else { loginForm.style.display = 'none'; editorPanel.style.display = 'block'; if (!tinymce.get('postContent')) { initTinyMCE(); } loadAdminPosts(); } }
+            function getPosts() { const postsJSON = localStorage.getItem('esparragorock-posts'); let posts = []; try { posts = postsJSON ? JSON.parse(postsJSON) : []; } catch (e) { console.error("Error parsing posts:", e); posts = []; } if (!posts || posts.length === 0) { const initialPosts = [ {id: 1, title: "Historia Espárrago Rock", category: "Noticia", content: "<p>...</p>", date: "01/01/2024"}, {id: 2, title: "Concierto (Vídeo)", category: "Video", content: '<div class="video-container">...</div>', date: "15/12/2023"}, {id: 3, title: "Galería Festival", category: "Foto", content: '<div class="gallery">...</div>', date: "10/08/2023"} ]; if (!postsJSON || posts.length === 0) { localStorage.setItem('esparragorock-posts', JSON.stringify(initialPosts)); return initialPosts; } } return Array.isArray(posts) ? posts : []; }
+            function savePosts(posts) { if (Array.isArray(posts)) { localStorage.setItem('esparragorock-posts', JSON.stringify(posts)); } else { console.error("Intento de guardar posts no válidos"); } }
+            function loadPublicPosts() { const posts = getPosts(); postsContainer.innerHTML = ''; videosContainer.innerHTML = ''; fotosContainer.innerHTML = ''; if (!posts || posts.length === 0) { postsContainer.innerHTML = '<p>No hay publicaciones.</p>'; videosContainer.innerHTML = '<p>No hay vídeos.</p>'; fotosContainer.innerHTML = '<p>No hay fotos.</p>'; return; } let n=false, v=false, f=false; posts.forEach(post => { if (!post || typeof post !== 'object') return; const el = document.createElement('article'); el.className = 'entrada'; el.innerHTML = `<h2>${post.title||'S/T'}</h2><p class="post-meta">Publicado: ${post.date||'N/A'}</p><div class="post-content">${post.content||''}</div>`; if (post.category === 'Video') { videosContainer.appendChild(el.cloneNode(true)); v=true; } else if (post.category === 'Foto') { const pE = document.createElement('article'); pE.className = 'entrada'; pE.innerHTML = `<h2>${post.title||'Galería'}</h2><p class="post-meta">Pub: ${post.date||'N/A'}</p>${post.content||'<p>No disponible.</p>'}`; fotosContainer.appendChild(pE); f=true; } else { postsContainer.appendChild(el); n=true; } }); if (!n) postsContainer.innerHTML='<p>No hay noticias.</p>'; if (!v) videosContainer.innerHTML='<p>No hay vídeos.</p>'; if (!f) fotosContainer.innerHTML='<p>No hay fotos.</p>'; }
+            function loadAdminPosts() { const posts = getPosts(); adminPostsContainer.innerHTML = ''; if (!posts || posts.length === 0) { adminPostsContainer.innerHTML = '<p>No hay pubs.</p>'; return; } posts.forEach((post, index) => { if (!post || typeof post !== 'object') return; const el = document.createElement('div'); el.className = 'admin-post-item'; el.innerHTML = `<div class="admin-post-info"><h3>${post.title||'S/T'}</h3><p><strong>Cat:</strong> ${post.category||'N/A'} | <strong>Fecha:</strong> ${post.date||'N/A'}</p></div><div class="admin-post-actions"><button onclick="startEditPost(${index})" class="edit-btn small-btn">E</button><button onclick="deletePost(${index})" class="delete-btn small-btn">X</button></div>`; adminPostsContainer.appendChild(el); }); } // Simplificado botones Admin
+            function startEditPost(index) { const posts = getPosts(); if (index < 0 || index >= posts.length) return; const post = posts[index]; if (!post) return; currentEditIndex = index; postIdInput.value = post.id; document.getElementById('postTitle').value = post.title || ''; document.getElementById('postCategory').value = post.category || ''; if (tinymce.get('postContent')) { tinymce.get('postContent').setContent(post.content || ''); } else { document.getElementById('postContent').value = post.content || ''; } submitPostBtn.textContent = 'Actualizar'; cancelEditBtn.style.display = 'inline-block'; postForm.scrollIntoView({ behavior: 'smooth' }); document.getElementById('postTitle').focus(); }
+            function cancelEdit() { resetForm(); }
+            function resetForm() { postForm.reset(); postIdInput.value = ''; if (tinymce.get('postContent')) { tinymce.get('postContent').setContent(''); } currentEditIndex = null; submitPostBtn.textContent = 'Guardar'; cancelEditBtn.style.display = 'none'; }
+            function deletePost(index) { if (!isAdmin) return; if (confirm('¿Eliminar?')) { const posts = getPosts(); if (index >= 0 && index < posts.length) { posts.splice(index, 1); savePosts(posts); loadAdminPosts(); loadPublicPosts(); alert('Eliminada.'); if (currentEditIndex === index) { resetForm(); } else if (currentEditIndex !== null && index < currentEditIndex) { currentEditIndex--; } } } }
+            function toggleRadio() { if (isRadioPlaying) { radioPlayer.pause(); } else { const sourceElement = radioPlayer.querySelector('source'); if (sourceElement && sourceElement.src !== RADIO_STREAM_URL) { sourceElement.src = RADIO_STREAM_URL; radioPlayer.load(); console.log("Fuente audio actualizada."); } else if (!sourceElement && radioPlayer.src !== RADIO_STREAM_URL) { radioPlayer.src = RADIO_STREAM_URL; radioPlayer.load(); console.log("Fuente audio src actualizada."); } radioPlayer.play().catch(error => { console.error("Error play:", error); radioStatus.textContent = "Error"; updateRadioUI(); }); } }
+            function updateRadioUI() { if (isRadioPlaying) { playIcon.style.display = 'none'; pauseIcon.style.display = 'inline-block'; radioToggleBtn.setAttribute('aria-label', 'Pausar'); } else { playIcon.style.display = 'inline-block'; pauseIcon.style.display = 'none'; radioToggleBtn.setAttribute('aria-label', 'Reproducir'); } }
+    
+            async function fetchCurrentSong() {
+                const targetSongUrl = SONG_INFO_URL;
+                const proxiedUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(targetSongUrl)}`;
+                const urlWithCacheBuster = proxiedUrl + '&_=' + Date.now();
+                console.log("Fetch canción vía proxy:", urlWithCacheBuster);
+                try {
+                    const response = await fetch(urlWithCacheBuster, { cache: "no-store" });
+                    if (!response.ok) {
+                        console.error(`Error fetch vía proxy: Status ${response.status}`);
+                        // *** MANEJO DE ERROR SUAVE (Solo log, no cambia UI) ***
+                        console.warn(`No se pudo obtener info de canción (Proxy E${response.status}), manteniendo anterior.`);
+                        return; // Salir sin cambiar nada en la UI
+                    }
+                    const songTitle = await response.text(); const cleanedTitle = songTitle.trim();
+                    console.log("Respuesta proxy (canción):", cleanedTitle);
+                     if (cleanedTitle && cleanedTitle !== currentSong && cleanedTitle.toLowerCase() !== 'offline' && cleanedTitle.length > 1 && !cleanedTitle.toLowerCase().includes('error') && !cleanedTitle.toLowerCase().includes('unknown')) {
+                        currentSong = cleanedTitle; radioCurrentSongSpan.textContent = currentSong; radioCurrentSongSpan.title = currentSong;
+                    } else if (!cleanedTitle || cleanedTitle.toLowerCase() === 'offline' || cleanedTitle.length <= 1 || cleanedTitle.toLowerCase().includes('error') || cleanedTitle.toLowerCase().includes('unknown')) {
+                         if (currentSong !== '-- Música Variada --') { radioCurrentSongSpan.textContent = '-- Música Variada --'; radioCurrentSongSpan.title = ''; currentSong = '-- Música Variada --'; }
+                    }
+                } catch (error) {
+                    // *** MANEJO DE ERROR SUAVE (Solo log, no cambia UI) ***
+                    console.error("Fetch falló al contactar proxy:", error);
+                    console.warn("No se pudo contactar al proxy para actualizar canción, manteniendo anterior.");
+                    // No se actualiza la UI aquí tampoco
+                }
+            }
+            function updateFooterYear() { currentYearSpan.textContent = new Date().getFullYear(); }
+    
+            // --- EVENT LISTENERS ---
+            postForm.addEventListener('submit', function(e) { e.preventDefault(); if (!isAdmin) return; const posts = getPosts(); const postData = { id: postIdInput.value ? parseInt(postIdInput.value) : Date.now(), title: document.getElementById('postTitle').value.trim(), category: document.getElementById('postCategory').value, content: tinymce.get('postContent') ? tinymce.get('postContent').getContent() : '', date: new Date().toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' }) }; if (currentEditIndex !== null) { posts[currentEditIndex] = postData; } else { posts.unshift(postData); } savePosts(posts); resetForm(); loadAdminPosts(); loadPublicPosts(); alert('Guardada.'); });
+            contactForm.addEventListener('submit', function(e) { e.preventDefault(); const formData = { name: document.getElementById('name').value.trim(), email: document.getElementById('email').value.trim(), subject: document.getElementById('subject').value.trim(), message: document.getElementById('message').value.trim(), date: new Date().toISOString() }; const contacts = JSON.parse(localStorage.getItem('esparragorock-contacts')) || []; contacts.unshift(formData); localStorage.setItem('esparragorock-contacts', JSON.stringify(contacts)); alert('¡Gracias!'); this.reset(); });
+            radioToggleBtn.addEventListener('click', toggleRadio);
+            radioVolumeControl.addEventListener('input', function() { radioPlayer.volume = this.value; });
+            radioPlayer.addEventListener('play', () => { isRadioPlaying = true; radioStatus.textContent = "En vivo"; updateRadioUI(); });
+            radioPlayer.addEventListener('playing', () => { isRadioPlaying = true; if (radioStatus.textContent !== "En vivo") radioStatus.textContent = "En vivo"; updateRadioUI(); });
+            radioPlayer.addEventListener('pause', () => { isRadioPlaying = false; if (radioStatus.textContent !== "Error" && radioStatus.textContent !== "Conectando...") { radioStatus.textContent = "Pausado"; } updateRadioUI(); });
+            radioPlayer.addEventListener('waiting', () => { radioStatus.textContent = "Conectando..."; });
+            radioPlayer.addEventListener('stalled', () => { radioStatus.textContent = "Conexión débil"; });
+            radioPlayer.addEventListener('error', (e) => { isRadioPlaying = false; radioStatus.textContent = "Error"; console.error("Error en reproductor:", e); updateRadioUI(); if (currentSong !== 'No disponible') { radioCurrentSongSpan.textContent = 'No disponible'; currentSong = 'No disponible'; } });
+    
+            // --- INICIALIZACIÓN AL CARGAR LA PÁGINA ---
+            document.addEventListener('DOMContentLoaded', () => {
+                console.log("DOM Cargado. Inicializando...");
+                try {
+                    updateFooterYear();
+                    loadPublicPosts();
+                    showPublicSection();
+                    updateRadioUI();
+                    radioPlayer.volume = radioVolumeControl.value;
+                    fetchCurrentSong();
+                    if (songFetchIntervalId) clearInterval(songFetchIntervalId);
+                    songFetchIntervalId = setInterval(fetchCurrentSong, FETCH_SONG_INTERVAL);
+                    console.log("Inicialización completada.");
+                } catch (error) {
+                     console.error("Error durante la inicialización:", error);
+                }
+            });
+        </script>
+        <!-- ======================= FIN BLOQUE SCRIPT ======================= -->
+    
+    </body>
+    </html>
